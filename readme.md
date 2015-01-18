@@ -2,8 +2,10 @@
 
 Super simple point of intesting mapping app.
 
+Comes with simple node.js file flinger, but contents of /public can live anywhere. Model resides in /public/map.json.
+
 ## Installation
-####localhost
+####Localhost
 * Ensure node.js is installed (http://nodejs.org)
 * CD to the freezing-tribble directory
 * sudo npm install

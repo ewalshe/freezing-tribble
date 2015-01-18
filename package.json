@@ -1,0 +1,14 @@
+{
+  "name": 			        "Simples",
+  "description": 		    "Simple Node.js based file flinger.",
+  "scripts": {
+    "start":				"node server"
+  },
+  "version":			    "0.0.0-1",
+  "engines": {
+    "node":					"*"
+  },
+  "dependencies": {
+    "node-static":			"*"
+  }
+}
