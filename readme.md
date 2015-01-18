@@ -1,6 +1,6 @@
 # FreezingTribble
 
-Super simple point of intesting mapping app.
+Super simple point of interest mapping app.
 
 Comes with simple node.js file flinger, but contents of /public can live anywhere. Model resides in /public/map.json.
 
