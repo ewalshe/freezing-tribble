@@ -4,6 +4,10 @@ Super simple point of intesting mapping app.
 
 Comes with simple node.js file flinger, but contents of /public can live anywhere. Model resides in /public/map.json.
 
+## Demo
+
+https://freezing-tribble.herokuapp.com
+
 ## Installation
 ####Localhost
 * Ensure node.js is installed (http://nodejs.org)
