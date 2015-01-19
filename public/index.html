@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height,target-densitydpi=device-dpi">
     <link rel="stylesheet" href="media/css/map.css">
-    <title>MapThingy</title>
+    <title>freezingTribble</title>
     <link rel="apple-touch-icon" href="media/img/favicon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Evaporate">
+    <meta name="apple-mobile-web-app-title" content="freezingTribble">
 </head>
 <body role="application">
     <nav role="navigation" class="offScreen">
@@ -31,7 +31,7 @@
     <main id="map" class="map" role="main"></main>
 
     <dialog id="modal" class="modal" role="dialog">
-        <button id="closeModal icon-cancel" class="close">Exit</button>
+        <button id="closeModal" class="close icon-cancel">Exit</button>
         <article role="article"></article>
     </dialog>
 
@@ -39,14 +39,14 @@
         <p>&copy;2015 SomeWebSite.</p>
     </footer>
 
-    <script id="modalContent" type="text/template">
+    <template id="modalContentTemplate" hidden>
         <h1>{{title}}</h1>
         {{detail}}
-    </script>
+    </template>
 
-    <script id="navigationTemplate" type="text/template">
+    <template id="navigationTemplate" hidden>
         <li data-index="{{index}}">{{title}}</li>
-    </script>
+    </template>
 
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="media/js/map.js"></script>

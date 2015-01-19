@@ -111,6 +111,9 @@ h2,
 h3{
   font-weight:200
 }
+template{
+    display:none
+}
 
 
 /* Support classes */
@@ -120,15 +123,15 @@ h3{
 }
 [class^='icon-'],
 [class*=' icon-'] {
-    font-family: 'icon';
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    line-height: 1;
-    speak: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-transform: none
+    font-family:'icon';
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:1;
+    speak:none;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-transform:none
 }
 .icon-connection:before{
     content:'\e91b'
@@ -231,7 +234,8 @@ header nav li:hover{
 }
 
 header form{
-    padding:20px 10px 0
+    padding:20px 0 0 0;
+    position:relative
 }
 header form button{
     display:none
@@ -323,12 +327,40 @@ header form input:focus{
 
 footer{
     background:rgba(0,0,0,.75);
-    bottom:0px;
+    bottom:0;
     color:#fff;
     padding:10px 20px;
     text-align:center;
     top:auto
 }
+
+/* Widget search suggestions */
+.searchSuggest{
+    box-shadow:0 0 2px rgba(0,0,0,.4);
+    position:absolute;
+    text-align:left;
+    width:100%
+}
+.searchSuggest li{
+    background:rgba(0,0,0,.9);
+    color:#fff;
+    cursor:pointer;
+    list-style-type:none;
+    padding:4px 6px
+}
+.searchSuggest li:first-child{
+    border-radius:4px 4px 0 0
+}
+.searchSuggest li:last-child {
+    border-radius:0 0 4px 4px
+}
+.searchSuggest li:focus,
+.searchSuggest li:hover,
+.searchSuggest li.active{
+    background:#fff;
+    color:#333
+}
+
 
 
 /* RD */

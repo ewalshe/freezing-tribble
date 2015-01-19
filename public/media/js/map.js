@@ -1,7 +1,8 @@
 ;(function (win, doc, undefined) {
     'use strict';
 
-    var overlayDelay = 0,
+    var maxSearchSuggestions = 10,
+        overlayDelay = 0,
         template,
         data,
         gmap,
@@ -34,7 +35,7 @@
 
 
     // Modal content template (TODO: move to <template>)
-    template = q$('#modalContent').innerHTML;
+    template = q$('#modalContentTemplate').innerHTML;
 
 
     // XMLHTTP
@@ -96,37 +97,6 @@
     };
 
 
-    // Soundex a string
-    var soundex = function (s) {
-        var a = s.toLowerCase().split(''),
-            f = a.shift(),
-            r = '',
-            codes;
-
-        codes = {
-            a: '', e: '', i: '', o: '', u: '',
-            b: 1, f: 1, p: 1, v: 1,
-            c: 2, g: 2, j: 2, k: 2, q: 2, s: 2, x: 2, z: 2,
-            d: 3, t: 3,
-            l: 4,
-            m: 5, n: 5,
-            r: 6
-        };
-
-        r = f +
-        a
-            .map(function (v, i, a) {
-                return codes[v]
-            })
-            .filter(function (v, i, a) {
-                return ((i === 0) ? v !== codes[f] : v !== a[i - 1]);
-            })
-            .join('');
-
-        return (r + '000').slice(0, 4).toUpperCase();
-    };
-
-
     // Apply template to model
     var applyTemplate = function (model, template) {
         var tmpl = template || '';
@@ -142,7 +112,8 @@
     // information modal
     var modal = function () {
         var $detail = q$('#modal article'),
-            active = false;
+            active = false,
+            activeEl;
 
         // Is modal visible to user?
         var isActive = function () {
@@ -158,6 +129,8 @@
 
         // show modal
         var show = function (content) {
+            activeEl = doc.activeElement || null;
+
             if (content && content.length > 0) {
                 populate(content);
             }
@@ -173,6 +146,10 @@
             $docEl.className = (' ' + $docEl.className + ' ').split(' modalActive ').join(' ');
             active = false;
 
+            if (activeEl) {
+                activeEl.focus();
+            }
+
             return modal;
         };
 
@@ -185,7 +162,7 @@
 
 
         // Close button
-        q$('#modal').addEventListener('click', hide, false);
+        q$('#closeModal').addEventListener('click', hide, false);
 
 
         // API
@@ -200,59 +177,7 @@
 
     // Show modal with point of interest details
     var showMarkerDetail = function (marker) {
-        if (marker.img) {
-            marker.detail = '<img alt="" src="' + marker.img + '">' + marker.detail;
-        }
-
         modal.show(applyTemplate(marker, template));
-    };
-
-
-    // Build quick search
-    var buildSearch = function (data) {
-        data.search = [];
-
-        data.markers.forEach(function (marker, index) {
-            var string =  (marker.title + ' ' + marker.summary + ' ' + stripHTML(marker.detail)).toLowerCase(),
-                arr = string.split(' '),
-                searchObj = {
-                    index   : index,
-                    arr     : arr,
-                    string  : string,
-                    soundex : []
-                };
-
-
-            arr.forEach(function (word) {
-                searchObj.soundex.push(soundex(word));
-            });
-
-            data.markers[index].search = searchObj;
-        });
-    };
-
-
-    // Search for a keyword in a point of interest
-    var searchKeyWord = function (term) {
-        var term = term.toLowerCase(),
-            sTerm = soundex(term),
-            results = [];
-
-        data.markers.forEach(function (marker) {
-            var searchObj = marker.search;
-
-            if (searchObj.string.indexOf(term) > -1) {
-                results.push(searchObj.index);
-            }
-        });
-
-        searchSuggestions(results);
-    };
-
-
-    // Build suggestions list
-    var searchSuggestions = function (results) {
-        console.log(results);
     };
 
 
@@ -289,7 +214,7 @@
             map         : gmap,
             clickable   : true,
             title       : marker.title,
-            icon        : marker.icon || '/media/img/info.png'
+            icon        : marker.icon || 'media/img/info.png'
         });
 
         marker.mark = mark;
@@ -329,13 +254,22 @@
 
         data = JSON.parse(txt);
 
+        // Do we have enough data to proceed?
         if (!data.config || !Array.isArray(data.markers)) {
             alert('Could not parse data, sorry :(');
             return;
         }
+        if (!data.config.startLat || !data.config.startLong) {
+            alert('Sorry, no start coordinates, quitting.');
+            return;
+        }
 
+        // Override defaults
         if (data.config.showOverlayDelay) {
             overlayDelay = data.config.showOverlayDelay;
+        }
+        if (data.config.maxSearchSuggestions) {
+            maxSearchSuggestions = data.config.maxSearchSuggestions;
         }
 
         latLg = new google.maps.LatLng(parseFloat(data.config.startLat), parseFloat(data.config.startLong));
@@ -371,7 +305,7 @@
 
         // Lazy build search index
         setTimeout(function () {
-            buildSearch(data);
+            quikSearch($search, data.markers);
         }, 99);
     };
 
@@ -385,17 +319,199 @@
             return;
         }
 
-        marker = target.getAttribute('data-index');
+        marker = parseInt(target.getAttribute('data-index'), 10);
         showMarkerDetail(markers[marker]);
     }, true);
 
 
-    // EVENT: Handle search key strokes
-    $search.addEventListener('keyup', function () {
-        searchKeyWord(this.value);
-    }, true);
+    // Perform client side search with suggestions
+    var quikSearch = function (el, data, callback) {
+        var maxSuggestions = maxSearchSuggestions || 10,
+            searchIndex = [],
+            suggestionEl;
+
+
+        if (!el || !data) {
+            console.log('No element to attach to or no data to search.');
+            return;
+        }
+
+        if (!Array.isArray(data)) {
+            console.log('QuikSearch requires an array of objects.');
+            return;
+        }
+
+
+        // Soundex a string
+        var soundex = function (s) {
+            var a = s.toLowerCase().split(''),
+                f = a.shift(),
+                r = '',
+                codes;
+
+            codes = {
+                a: '', e: '', i: '', o: '', u: '',
+                b: 1, f: 1, p: 1, v: 1,
+                c: 2, g: 2, j: 2, k: 2, q: 2, s: 2, x: 2, z: 2,
+                d: 3, t: 3,
+                l: 4,
+                m: 5, n: 5,
+                r: 6
+            };
+
+            r = f +
+            a
+                .map(function (v, i, a) {
+                    return codes[v]
+                })
+                .filter(function (v, i, a) {
+                    return ((i === 0) ? v !== codes[f] : v !== a[i - 1]);
+                })
+                .join('');
+
+            return (r + '000').slice(0, 4).toUpperCase();
+        };
+
+
+        // Build case insensitive bolded markup
+        var caseInsensitiveBold = function (word, trm) {
+            var regex = new RegExp('(' + word + ')', 'gi');
+
+            return trm.replace(regex, '<strong>$1</strong>');
+        };
+
+
+        // Return search index
+        var getSearchIndex = function () {
+            return searchIndex;
+        };
+
+
+        // Build search index
+        data.forEach(function (obj, index) {
+            var searchObj = {
+                    index   : index,
+                    soundex : [],
+                    title   : obj.title || obj.name || index
+                },
+                str = '';
+
+
+            Object.keys(obj).forEach(function(key) {
+                var item = obj[key];
+
+                if (typeof item === 'string') {
+                    str += ' ' + stripHTML(item).toLowerCase();
+                }
+            });
+
+            searchObj.str = str;                    // Keep original string
+            searchObj.words = str.split(' ');       // TODO: kill stop words
+
+            // Build simple fuzzy strings
+            searchObj.words.forEach(function (word) {
+                searchObj.soundex.push(soundex(word));
+            });
+
+            searchIndex.push(searchObj);
+        });
+
+
+        // Perform a quick search
+        var searchKeyWord = function (term) {
+            var term = (' ' + term.toLowerCase()),
+                sTerm = soundex(term),
+                results = [];
+
+            searchIndex.some(function (record) {
+                if (record.str.indexOf(term) > -1 || record.soundex.indexOf(sTerm) > -1) {
+                    results.push(record);
+                }
+
+                if (results.length > maxSuggestions) {
+                    return true;
+                }
+            });
+
+            if (callback) {
+                callback(el, results, term);
+            } else {
+                showSearchResults(results, term);
+            }
+        };
+
+
+        // Build / show search suggestions
+        var showSearchResults = function (results, term) {
+            var lis = '';
+
+            // Build DOM element
+            if (!suggestionEl) {
+                suggestionEl = doc.createElement('ul');
+                suggestionEl.className = 'searchSuggest';
+
+                suggestionEl.onclick = function (e) {
+                    var target = e.target;
+
+                    if (target.tagName === 'LI') {
+                        showMarkerDetail(markers[parseInt(target.getAttribute('data-index'), 10)]);
+                    }
+                };
+
+                el.parentNode.appendChild(suggestionEl);
+            }
+
+            results.forEach(function (result) {
+                lis += '<li data-index="' + result.index + '">' + caseInsensitiveBold(term, result.title) + '</li>';
+            });
+
+            suggestionEl.innerHTML = lis || '';
+        };
+
+
+        // UI interaction; move between keyed suggestions
+        var navTo = function (keyCode) {
+
+        };
+
+
+        // Event listener
+        var handleSearchEvents = function (e) {
+            var keyCode = e.keyCode || 0,
+                val = this.value;
+
+            if (keyCode === 38 || keyCode === 40) {
+                e.preventDefault();
+
+                navTo(keyCode);
+                return;
+            }
+
+            if (keyCode === 27) {
+                suggestionEl.className = 'searchSuggest';
+                return;
+            }
+
+            setTimeout(function () {
+                searchKeyWord(val);
+            }, 9);
+        };
+
+        el.addEventListener('keyup', handleSearchEvents, true);
+
+
+        // Public API
+        return {
+            data:   getSearchIndex,
+            search: searchKeyWord
+        }
+    };
 
 
     // Import data, then start the show
-    XHR('map.json', {callback: init});
+    if (!win.placesOfInterest) {
+        XHR('map.json', {callback: init});
+    } else {
+        alert('TODO: inline data loading here');
+    }
 }(window, document));
