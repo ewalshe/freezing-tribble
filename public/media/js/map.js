@@ -110,9 +110,11 @@
 
 
     // information modal
-    var modal = function () {
-        var $detail = q$('#modal article'),
-            active = false,
+    var modal = function (selector) {
+        var selector    = selector || '#modal',
+            $modal      = q$(selector),
+            $detail     = q$('article', $modal),
+            active      = false,
             activeEl;
 
         // Is modal visible to user?
@@ -155,14 +157,14 @@
 
         // Keyboard navigation
         doc.addEventListener('keydown', function (e) {
-            if (e.keyCode === 27 && active === true) {
+            if (active === true && e.keyCode === 27) {
                 hide();
             }
         }, true);
 
 
         // Close button
-        q$('#closeModal').addEventListener('click', hide, false);
+        q$('#closeModal', $modal).addEventListener('click', hide, false);
 
 
         // API
@@ -245,7 +247,8 @@
 
     // Init UI
     var init = function (txt, status) {
-        var latLg;
+        var latLg,
+            map;
 
         if (status < 200 || status > 399) {
             alert('Sorry, an error occurred :(');
@@ -259,10 +262,12 @@
             alert('Could not parse data, sorry :(');
             return;
         }
-        if (!data.config.startLat || !data.config.startLong) {
+        if (!data.config.map || !data.config.map.lat || !data.config.map.long) {
             alert('Sorry, no start coordinates, quitting.');
             return;
         }
+
+        map = data.config.map;
 
         // Override defaults
         if (data.config.showOverlayDelay) {
@@ -272,11 +277,11 @@
             maxSearchSuggestions = data.config.maxSearchSuggestions;
         }
 
-        latLg = new google.maps.LatLng(parseFloat(data.config.startLat), parseFloat(data.config.startLong));
+        latLg = new google.maps.LatLng(parseFloat(map.lat), parseFloat(map.long));
 
         // Set-up gMap
         gmap = new google.maps.Map($map, {
-            zoom                    : data.config.zoom,
+            zoom                    : map.zoom || 12,
             center                  : latLg,
             disableDefaultUI        : true,
             panControl              : false,
@@ -305,7 +310,7 @@
 
         // Lazy build search index
         setTimeout(function () {
-            quikSearch($search, data.markers);
+            quikSearch(q$('header form[role="search"]'), data.markers);
         }, 99);
     };
 
@@ -324,9 +329,27 @@
     }, true);
 
 
+    // EVENT: Handle point of interest hover
+    $nav.addEventListener('mouseover', function (e) {
+        var target = e.target,
+            markerIndex;
+
+        if (target.tagName != 'LI') {
+            return;
+        }
+
+        markerIndex = parseInt(target.getAttribute('data-index'), 10);
+
+        if (markers[markerIndex]) {
+            gmap.panTo(markers[markerIndex].mark.getPosition());
+        }
+    });
+
+
     // Perform client side search with suggestions
-    var quikSearch = function (el, data, callback) {
+    var quikSearch = function (form, data, callback) {
         var maxSuggestions = maxSearchSuggestions || 10,
+            el = q$('input[type="search"]', form),
             searchIndex = [],
             suggestionEl;
 
@@ -341,6 +364,8 @@
             return;
         }
 
+        el.setAttribute('autocapitalize', 'off');
+        el.setAttribute('autocomplete', 'off');
 
         // Soundex a string
         var soundex = function (s) {
@@ -419,7 +444,7 @@
 
         // Perform a quick search
         var searchKeyWord = function (term) {
-            var term = (' ' + term.toLowerCase()),
+            var term = term.toLowerCase(),
                 sTerm = soundex(term),
                 results = [];
 
