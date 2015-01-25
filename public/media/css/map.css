@@ -79,7 +79,6 @@ button:active{
     background:linear-gradient(#5eaef5,#77c2fd 50%,#77c2fd);
     box-shadow:0 3px 6px rgba(0,0,0,.2) inset,0 0 13px #77c2fd,0 0 23px #77c2fd,0 0 6px #77c2fd
 }
-input[type=search],
 input[type=search]:focus{
     font-size:16px
 }
