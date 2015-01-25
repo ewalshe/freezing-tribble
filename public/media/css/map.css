@@ -204,6 +204,9 @@ template{
     -webkit-transform:scale(3,3);
     transform:scale(3,3)
 }
+.intro.hide.destroy{
+    display:none
+}
 .intro img{
     height:auto;
     left:50%;

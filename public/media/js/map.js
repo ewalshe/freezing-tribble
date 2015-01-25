@@ -352,8 +352,13 @@
 
         // Show UI
         setTimeout(function () {
-            q$('.intro').className += ' hide';
-        }, 900);
+            var intro = q$('.intro');
+
+            intro.className += ' hide';
+            intro.addEventListener('transitionend', function () {
+                intro.className += ' destroy';
+            }, false);
+        }, 999);
 
 
         // Lazy build search index
