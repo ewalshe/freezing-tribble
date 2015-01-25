@@ -79,22 +79,9 @@ button:active{
     background:linear-gradient(#5eaef5,#77c2fd 50%,#77c2fd);
     box-shadow:0 3px 6px rgba(0,0,0,.2) inset,0 0 13px #77c2fd,0 0 23px #77c2fd,0 0 6px #77c2fd
 }
-input[type=password],
-input[type=text]{
-    border:1px #e2e2e2 solid;
-    border-radius:2px;
-    color:#555;
-    padding:3px 6px
-}
-input[type=password]:focus,
-input[type=text]:focus{
-    border:1px #56a1e4 solid;
-    box-shadow:0 0 12px #56a1e4;
-    color:#000
-}
-input[type=password]:hover,
-input[type=password]:focus{
-    border:1px #56a1e4 solid
+input[type=search],
+input[type=search]:focus{
+    font-size:16px
 }
 dialog,
 footer,
