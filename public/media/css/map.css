@@ -226,7 +226,7 @@ template{
     top:50%
 }
 .intro h1{
-    bottom:10%;
+    bottom:15%;
     position:absolute;
     text-align:center;
     text-shadow:1px 1px 0 #fff;
@@ -415,25 +415,37 @@ footer{
         z-index:3
     }
     header nav{
-        bottom:0;
+        bottom:38px;
         border-radius:0 4px 0 0;
         font-size:1.8rem;
-        height:46px;
+        height:54px;
         padding:16px;
         position:fixed;
+        text-align:left;
         z-index:4
     }
     header nav > a{
-        border-bottom:1px rgba(0,0,0,.3) solid;
+        background:rgba(0,0,0,.8);
+        border-radius:8px;
+        box-shadow:0 1px 0 rgba(255,255,255,.3);
+        display:inline-block;
         margin-bottom:4px;
-        padding:0 0 9px;
-        text-align:left
+        padding:6px 9px;
+        text-align:center
     }
     header nav:target,
     header nav:hover{
-        background:rgba(0,0,0,.5);
+        background:rgba(0,0,0,.7);
+        box-shadow:0 -3px 3px rgba(0,0,0,.4) inset;
         height:auto;
         padding-bottom:40px
+    }
+    header nav:target > a,
+    header nav:hover > a{
+        background:transparent;
+        border-bottom:1px rgba(0,0,0,.3) solid;
+        border-radius:0;
+        display:block
     }
     header nav ul{
         max-height:70vh;

@@ -353,13 +353,13 @@
         // Show UI
         setTimeout(function () {
             q$('.intro').className += ' hide';
-        }, 400);
+        }, 900);
 
 
         // Lazy build search index
         setTimeout(function () {
             quikSearch(q$('header form[role="search"]'), data.markers);
-        }, 999);
+        }, 99);
     };
 
 
@@ -488,7 +488,6 @@
                 },
                 str = '';
 
-
             Object.keys(obj).forEach(function(key) {
                 var item = obj[key];
 
@@ -542,13 +541,34 @@
                 suggestionEl = doc.createElement('ul');
                 suggestionEl.className = 'searchSuggest';
 
-                suggestionEl.onclick = function (e) {
-                    var target = e.target;
+                // Handle click evts
+                suggestionEl.addEventListener('click', function (evt) {
+                    var target = evt.target;
 
-                    if (target.tagName === 'LI') {
-                        showMarkerDetail(markers[parseInt(target.getAttribute('data-index'), 10)]);
+                    console.log(target.tagName);
+
+                    while (target.tagName != 'LI') {
+                        target = target.parentNode;
                     }
-                };
+
+                    showMarkerDetail(markers[parseInt(target.getAttribute('data-index'), 10)]);
+                }, true);
+
+                // TMP TODO - make generic
+                suggestionEl.addEventListener('mouseover', function (evt) {
+                    var target = evt.target,
+                        index;
+
+                    while (target.tagName != 'LI') {
+                        target = target.parentNode;
+                    }
+
+                    index = parseInt(target.getAttribute('data-index'), 10);
+
+                    if (markers[index]) {
+                        gmap.panTo(markers[index].mark.getPosition());
+                    }
+                }, true);
 
                 el.parentNode.appendChild(suggestionEl);
             }
