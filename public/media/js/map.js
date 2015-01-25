@@ -350,7 +350,7 @@
         });
 
 
-        // Show UI
+        // Kill intro, show UI
         setTimeout(function () {
             var intro = q$('.intro');
 
