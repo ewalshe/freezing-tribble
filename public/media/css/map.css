@@ -219,10 +219,12 @@ template{
     transform:scale(3,3)
 }
 .intro img{
+    height:auto;
     left:50%;
     position:absolute;
     -webkit-transform:translate(-50%,-50%);
     transform:translate(-50%,-50%);
+    width:128px;
     top:50%
 }
 .intro h1{
