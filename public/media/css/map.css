@@ -352,7 +352,8 @@ header,
 }
 .modal > article{
     height:97%;
-    overflow:auto
+    overflow:auto;
+    -webkit-overflow-scrolling:touch
 }
 .modal h1{
     font-size:3rem;
