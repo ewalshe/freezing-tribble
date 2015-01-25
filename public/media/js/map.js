@@ -7,7 +7,6 @@
         data,
         gmap,
         $docEl,
-        $search,
         $nav,
         $map;
 
@@ -31,7 +30,6 @@
     $docEl = doc.documentElement;
     $map = q$('#map');
     $nav = q$('header > nav');
-    $search = q$('#search');
 
 
     // Modal content template (TODO: move to <template>)
@@ -87,7 +85,7 @@
     // Strip markup from a string
     var stripHTML = function (html) {
         var tempEl = doc.createElement('i'),
-            txt = '';
+            txt;
 
         tempEl.innerHTML = html;
         txt = (tempEl.textContent || tempEl.innerText || '');
@@ -146,6 +144,7 @@
         // Hide modal
         var hide = function () {
             $docEl.className = (' ' + $docEl.className + ' ').split(' modalActive ').join(' ');
+            doc.location.hash = '';
             active = false;
 
             if (activeEl) {
@@ -180,6 +179,8 @@
     // Show modal with point of interest details
     var showMarkerDetail = function (marker) {
         modal.show(applyTemplate(marker, template));
+
+        doc.location.hash = marker.uri;
     };
 
 
@@ -304,9 +305,14 @@
             });
         }
 
-        // Add markers and populate point-of-interest menu
+        // Add markers and populate point-of-interest menu, init routing
         addMapMarkers(data);
         buildNav(data);
+        router.init(data, function (obj) {
+            if (obj) {
+                showMarkerDetail(obj);
+            }
+        });
 
         // Lazy build search index
         setTimeout(function () {
@@ -348,7 +354,8 @@
 
     // Perform client side search with suggestions
     var quikSearch = function (form, data, callback) {
-        var maxSuggestions = maxSearchSuggestions || 10,
+        var suggestionTemplate = q$('#navigationTemplate').innerHTML,
+            maxSuggestions = maxSearchSuggestions || 10,
             el = q$('input[type="search"]', form),
             searchIndex = [],
             suggestionEl;
@@ -364,8 +371,26 @@
             return;
         }
 
+        // Prevent form POSTs reaching server
+        form.addEventListener('submit', function (evt) {
+            var activeEl;
+
+            evt.preventDefault();
+
+            if (suggestionEl) {
+                activeEl = q$('.active', suggestionEl);
+
+                if (activeEl) {
+                    activeEl.click();
+                }
+            }
+        }, true);
+
+
+        // Suppress browser defaults
         el.setAttribute('autocapitalize', 'off');
         el.setAttribute('autocomplete', 'off');
+
 
         // Soundex a string
         var soundex = function (s) {
@@ -486,8 +511,14 @@
                 el.parentNode.appendChild(suggestionEl);
             }
 
-            results.forEach(function (result) {
-                lis += '<li data-index="' + result.index + '">' + caseInsensitiveBold(term, result.title) + '</li>';
+            results.forEach(function (result, index) {
+                var item = {
+                    itemIndex : index,
+                    index     : result.index,
+                    title     : caseInsensitiveBold(term, result.title)
+                };
+
+                lis += applyTemplate(item, suggestionTemplate);
             });
 
             suggestionEl.innerHTML = lis || '';
@@ -496,33 +527,93 @@
 
         // UI interaction; move between keyed suggestions
         var navTo = function (keyCode) {
+            var lis = suggestionEl.querySelectorAll('li'),
+                active = q$('.active', suggestionEl),
+                activeIndex,
+                lisCount = (lis.length - 1),
+                i, j;
 
+            if (!active) {
+                activeIndex = 0;
+                if (keyCode === 38) {
+                    activeIndex = lisCount;
+                }
+            } else {
+                activeIndex = parseInt(active.getAttribute('data-menu-item'), 10);
+
+                for (i = 0, j = lis.length; i < j; i++) {
+                    lis[i].className = '';
+                }
+
+                if (keyCode === 38) {
+                    activeIndex--;
+                    if (activeIndex < 0) {
+                        activeIndex = lisCount
+                    }
+                } else {
+                    activeIndex++;
+                    if (activeIndex > lisCount) {
+                        activeIndex = 0;
+                    }
+                }
+            }
+
+            lis[activeIndex].className = 'active';
+
+            // TEMP
+            var markerIndex = parseInt(lis[activeIndex].getAttribute('data-index'), 10);
+
+            if (markers[markerIndex]) {
+                gmap.panTo(markers[markerIndex].mark.getPosition());
+            }
         };
 
 
         // Event listener
-        var handleSearchEvents = function (e) {
-            var keyCode = e.keyCode || 0,
-                val = this.value;
+        var handleSearchEvents = function (evt) {
+            var keyCode = evt.keyCode || 0,
+                val = this.value,
+                selectedLink;
 
+
+            // Close search
+            if (keyCode === 27) {
+                el.blur();
+            }
+
+            // Navigation suggestions
             if (keyCode === 38 || keyCode === 40) {
-                e.preventDefault();
+                evt.preventDefault();
 
                 navTo(keyCode);
                 return;
             }
 
+            // Choose active suggestion OR first suggestion
             if (keyCode === 27) {
-                suggestionEl.className = 'searchSuggest';
+                selectedLink = suggestionEl.querySelectorAll('.active')[0] || q$('li', suggestionEl);
+
+                if (selectedLink) {
+                    selectedLink.click();
+                }
                 return;
             }
 
+            // Perform a search
             setTimeout(function () {
                 searchKeyWord(val);
             }, 9);
         };
-
         el.addEventListener('keyup', handleSearchEvents, true);
+
+
+        // Remove suggests onBlur
+        el.addEventListener('blur', function () {
+            el.value = '';
+            if (suggestionEl) {
+                suggestionEl.innerHTML = '';
+            }
+        }, true);
 
 
         // Public API
@@ -531,6 +622,95 @@
             search: searchKeyWord
         }
     };
+
+
+    // Routing / history
+    var router = function () {
+        var routes = {},
+            extCallback;
+
+
+        if (!win.history || !win.history.pushState) {
+            return;
+        }
+
+        // Move to a route
+        var trigger = function (obj) {
+            if (!obj) {
+                return;
+            }
+
+            if (obj.title) {
+                doc.title = obj.title;
+            }
+
+            if (extCallback) {
+                extCallback(obj);
+            }
+        };
+
+
+        // Generate a clear URI
+        var toURI = function (txt, id) {
+            var URI = '#/' + txt.toLowerCase().replace(/\W/g, ' ').split(' ').join('-').trim();
+
+            if (typeof parseInt(id, 0) === 'number') {
+                URI += '-' + id;
+            }
+            return  URI;
+        };
+
+
+        // Add an item to history
+        var push = function (obj) {
+            win.history.pushState(obj, obj.title, obj.URI);
+        };
+
+
+        // Create routes, set initial state
+        var init = function (data, callback) {
+            var currentURI = doc.location.hash;
+
+            if (callback) {
+                extCallback = callback;
+            }
+
+            // Build route lookup
+            data.markers.forEach(function (route, index) {
+                var URI = toURI(route.title, index);
+
+                routes[URI] = index;
+                route.uri = URI;
+
+                if (URI === currentURI) {
+                    trigger(route);
+                }
+            });
+        };
+
+
+        // Listen for doc hash changes
+        var hashChange = function () {
+            var URI = doc.location.hash,
+                index = routes[URI];
+
+            // TODO: Make generic
+            if (typeof index === 'number') {
+                trigger(data.markers[index]);
+            } else {
+                modal.hide();
+            }
+        };
+        win.addEventListener('popstate', hashChange);
+        win.addEventListener('hashchange', hashChange)
+
+
+        return {
+            init    : init,
+            trigger : trigger,
+            push    : push
+        };
+    } ();
 
 
     // Import data, then start the show

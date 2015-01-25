@@ -19,7 +19,7 @@
         <h1>Places of Interest</h1>
 
         <nav id="nav" class="nav">
-            <!-- <p><a href="/about">About</a> | <a href="/contact">Contact</a></p> -->
+            <a class="toggleNav" href="#nav">Places</a>
             <ul></ul>
         </nav>
 
@@ -46,7 +46,7 @@
     </template>
 
     <template id="navigationTemplate" hidden>
-        <li data-index="{{index}}">{{title}}</li>
+        <li data-menu-item="{{itemIndex}}" data-index="{{index}}">{{title}}</li>
     </template>
 
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
