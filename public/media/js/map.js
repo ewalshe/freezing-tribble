@@ -1,17 +1,17 @@
 ;(function (win, doc, undefined) {
     'use strict';
 
-    var maxSearchSuggestions = 10,
+    var docEl = doc.documentElement,
+        maxSearchSuggestions = 10,
         overlayDelay = 0,
+        markers = [],
         template,
         data,
         gmap,
         $docEl,
         $nav,
-        $map;
-
-
-    win.markers = [];           // TODO: make private
+        $map,
+        UA;
 
 
     // Does UA support us?
@@ -21,9 +21,43 @@
     }
 
 
+    // Lets get to know the User Agents
+    UA = (function () {
+        var styles = win.getComputedStyle(docEl, ''),
+            pre = ([].slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1],
+            dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1],
+            rx = new RegExp('MSIE ([0-9]{1,}[\.0-9]{0,})'),
+            nv = win.navigator,
+            ie;
+
+        if (pre === 'ms') {
+            rx.exec(nv.userAgent);
+            ie = parseFloat(RegExp.$1);
+        }
+
+        return {
+            css         : '-' + pre + '-',
+            dom         : dom,
+            lowercase   : pre,
+            ie          : (ie || false),
+            js          : pre[0].toUpperCase() + pre.substr(1),
+            platform    : nv.platform.toLowerCase(),
+            touch       : ('ontouchstart' in docEl || 'onmsgesturechange' in win) ? true : false
+        };
+    }());
+
+
     // Shorthand querySelector
     var q$ = function (selector, context) {
         return (context || doc).querySelector(selector);
+    };
+
+
+    var q$$ = function (selector, context) {
+        if (typeof selector === 'string') {
+            return [].slice.call((context || doc).querySelectorAll(selector));
+        }
+        return [selector];
     };
 
 
@@ -203,7 +237,7 @@
             navString += applyTemplate(obj, navTemplate);
         });
 
-        $nav.innerHTML = '<ul>' + navString + '</ul>';
+        q$('ul', $nav).innerHTML = navString;
     };
 
 
@@ -217,7 +251,7 @@
             map         : gmap,
             clickable   : true,
             title       : marker.title,
-            icon        : marker.icon || 'media/img/info.png'
+            icon        : marker.icon || 'media/img/marker.png'
         });
 
         marker.mark = mark;
@@ -295,6 +329,7 @@
                 position: google.maps.ControlPosition.LEFT_CENTER
             },
             overviewMapControl      : true,
+            styles                  : map.style || [],
             mapTypeId               : google.maps.MapTypeId.ROADMAP
         });
 
@@ -314,10 +349,17 @@
             }
         });
 
+
+        // Show UI
+        setTimeout(function () {
+            q$('.intro').className += ' hide';
+        }, 400);
+
+
         // Lazy build search index
         setTimeout(function () {
             quikSearch(q$('header form[role="search"]'), data.markers);
-        }, 99);
+        }, 999);
     };
 
 
@@ -719,4 +761,7 @@
     } else {
         alert('TODO: inline data loading here');
     }
+
+    // Add support CSS
+    docEl.className = (' ' + docEl.className + ' ua-' + UA.lowercase + ' ' + ' os-' + UA.platform + ' ie-' +  UA.ie + ' ' + ((UA.touch) ? 'has-touch' : 'no-touch') + ' ').replace(' no-js ', ' js ').replace(' loading ', ' loaded ').trim();
 }(window, document));
