@@ -157,6 +157,7 @@
         // populate modal contents
         var populate = function (markup) {
             $detail.innerHTML = markup;
+            $detail.scrollTop = 0;
 
             return modal;
         };

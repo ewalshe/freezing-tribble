@@ -27,7 +27,7 @@
 
 /* Baseline */
 html{
-    background:#e2e2e2;
+    background:#000;
     color:#555;
     font:62.5% 'HelveticaNeue-UltraLight','Helvetica Neue UltraLight','Helvetica Neue',Helvetica,Roboto,Arial,sans-serif;
     line-height:1em;
@@ -38,7 +38,6 @@ html{
     touch-action:manipulation
 }
 body{
-    background:#000;
     font-size:1.2rem;
     height:100vh;
     line-height:1.5em
@@ -357,6 +356,7 @@ header,
     margin:0 0 4px 0
 }
 .modal p{
+    font-size:1.4rem;
     line-height:1.6em;
     margin:0 0 16px
 }
@@ -507,7 +507,8 @@ header,
 .map{
     -webkit-transition:.6s;
     -moz-transition:.6s;
-    transition:.6s
+    transition:.6s;
+    will-change:opacity
 }
 .intro{
     -webkit-transition:.4s;
