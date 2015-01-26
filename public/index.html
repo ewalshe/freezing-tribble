@@ -2,15 +2,32 @@
 <html class="no-js loading">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <link rel="stylesheet" href="media/css/map.css">
     <title>PlacesOfInterest</title>
+    <meta name="description" content="">
+    <link rel="canonical" href="//freezing-tribble.herokuapp.com/">
     <link rel="apple-touch-icon" href="favicon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="PlacesOfInterest">
+    <meta name="application-name" content="PFQ.ie">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IE">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="fb:admins" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="/favicon.png">
 </head>
 <body role="application" class="placesOfInterest">
+
     <div class="intro" role="presentation">
         <img src="media/img/logo.png" alt="">
         <h1>Places of Interest</h1>
@@ -23,7 +40,7 @@
     <header role="banner">
         <h1>Places of Interest</h1>
 
-        <nav id="nav" class="nav">
+        <nav id="nav" class="nav" role="navigation">
             <a class="toggleNav" href="#nav">Places</a>
             <ul></ul>
         </nav>
@@ -37,7 +54,7 @@
     <main id="map" class="map" role="main"></main>
 
     <dialog id="modal" class="modal" role="dialog">
-        <button id="closeModal" class="close icon-cancel">Exit</button>
+        <button id="closeModal" class="close icon-cancel" title="Close this window">Exit</button>
         <article role="article"></article>
     </dialog>
 
@@ -55,6 +72,6 @@
     </template>
 
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script src="media/js/map.js" id="placesOfInterestWidget" data-mode="" data-selector=""></script>
+    <script src="media/js/map.js" id="placesOfInterestWidget" data-mode="full" data-selector=""></script>
 </body>
 </html>
