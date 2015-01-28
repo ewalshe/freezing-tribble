@@ -32,7 +32,6 @@ html{
     font:62.5% 'HelveticaNeue-UltraLight','Helvetica Neue UltraLight','Helvetica Neue',Helvetica,Roboto,Arial,sans-serif;
     line-height:1em;
     min-height:100vh;
-    overflow:hidden;
     -moz-osx-font-smoothing:grayscale;
     -ms-touch-action:manipulation;
     touch-action:manipulation
@@ -40,7 +39,8 @@ html{
 body{
     font-size:1.2rem;
     height:100vh;
-    line-height:1.5em
+    line-height:1.5em;
+    overflow:hidden
 }
 .ua-webkit body{
     font-size:1.4rem;
@@ -180,7 +180,6 @@ template{
 .icon-question:before{
     content:'\e618'
 }
-.icon-cancel,
 .icon-cancel-circle:before{
     content:'\e619'
 }
@@ -344,20 +343,27 @@ header,
 }
 .modal > .close{
     background:transparent none;
-    border:1px #000 solid;
-    border-radius:50%;
+    border:0;
+    border-radius:0;
     cursor:pointer;
-    height:20px;
+    color:transparent;
+    height:40px;
     overflow:hidden;
     position:absolute;
-    right:10px;
-    text-indent:-999px;
+    right:0;
+    text-shadow:none;
     top:10px;
-    width:20px
+    width:40px
+}
+.modal > .close:before{
+    color:#555;
+    font-size:2rem;
+    position:absolute
 }
 .modal > article{
     height:97%;
     overflow:auto;
+    text-align:justify;
     -webkit-overflow-scrolling:touch
 }
 .modal h1{
@@ -429,7 +435,7 @@ footer{
         overflow:visible;
         position:absolute;
         text-align:left;
-        z-index:4
+        z-index:5
     }
     header nav > a{
         background:#fff;
@@ -447,10 +453,9 @@ footer{
     }
     header nav > a:before{
         color:#555;
-        font-size:2.2rem;
-        left:-1px;
-        position:relative;
-        top:1px
+        font-size:2.4rem;
+        left:-2px;
+        position:relative
     }
 
     header > nav > ul{
@@ -468,7 +473,7 @@ footer{
         color:#fff;
         content:'Pick a place';
         display:block;
-        font-size:2.4rem;
+        font-size:3rem;
         font-weight:200;
         margin:20px 0;
         text-align:center
@@ -492,8 +497,8 @@ footer{
         border-radius:50%;
         box-shadow:0 0 1px rgba(0,0,0,.5);
         color:#555;
-        font-size:2.2rem;
-        padding:6px;
+        font-size:2rem;
+        padding:8px;
         right:0;
         top:0
     }
@@ -504,6 +509,7 @@ footer{
         background:transparent;
         color:transparent;
         height:38px;
+        position:relative;
         text-align:right
     }
     header form:hover input,
@@ -511,7 +517,8 @@ footer{
         background:#fff;
         box-shadow:0 0 1px rgba(0,0,0,.5);
         color:#555;
-        text-align:left
+        text-align:left;
+        z-index:4
     }
 
     .searchSuggest{

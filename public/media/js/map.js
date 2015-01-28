@@ -171,6 +171,7 @@
             }
 
             $docEl.className += ' modalActive';
+            $modal.focus();
             active = true;
 
             return modal;
