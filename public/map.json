@@ -5,8 +5,7 @@
         "map": {
           "lat"             : 53.44880683542759,
           "long"            : -7.734375,
-          "zoom"            : 7,
-          "style"           : [{"featureType": "all", "stylers" : [{"saturation": -70},{"lightness": 20}]}]
+          "zoom"            : 7
         }
     },
     "markers": [
