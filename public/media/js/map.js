@@ -361,7 +361,7 @@
             intro.addEventListener('transitionend', function () {
                 intro.className += ' destroy';
             }, false);
-        }, 1999);
+        }, 2999);
 
 
         // Lazy build search index
