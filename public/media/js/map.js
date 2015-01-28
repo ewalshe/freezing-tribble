@@ -189,6 +189,7 @@
             return modal;
         };
 
+
         // Keyboard navigation
         doc.addEventListener('keydown', function (e) {
             if (active === true && e.keyCode === 27) {

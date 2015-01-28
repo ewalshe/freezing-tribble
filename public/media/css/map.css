@@ -2,11 +2,11 @@
     font-family:'icon';
     font-style:normal;
     font-weight:normal;
-    src:url('/media/fonts/icon.eot?kov901');
-    src:url('/media/fonts/icon.eot?#iefixkov901') format('embedded-opentype'),
-        url('/media/fonts/icon.woff?kov901') format('woff'),
-        url('/media/fonts/icon.ttf?kov901') format('truetype'),
-        url('/media/fonts/icon.svg?kov901#icon') format('svg')
+    src:url('../fonts/icon.eot?kov901');
+    src:url('../fonts/icon.eot?#iefixkov901') format('embedded-opentype'),
+        url('../fonts/icon.woff?kov901') format('woff'),
+        url('../fonts/icon.ttf?kov901') format('truetype'),
+        url('../fonts/icon.svg?kov901#icon') format('svg')
 }
 
 
@@ -78,9 +78,6 @@ button:active{
     background:linear-gradient(#5eaef5,#77c2fd 50%,#77c2fd);
     box-shadow:0 3px 6px rgba(0,0,0,.2) inset,0 0 13px #77c2fd,0 0 23px #77c2fd,0 0 6px #77c2fd
 }
-input[type=search]:focus{
-    font-size:16px
-}
 dialog,
 footer,
 header,
@@ -112,8 +109,10 @@ template{
     position:absolute;
     top:-999999px
 }
-[class^='icon-'],
-[class*=' icon-'] {
+
+/* Icons */
+[class^='icon-']:before,
+[class*=' icon-']:before{
     font-family:'icon';
     font-style:normal;
     font-variant:normal;
@@ -124,59 +123,69 @@ template{
     -moz-osx-font-smoothing:grayscale;
     text-transform:none
 }
-.icon-connection:before{
-    content:'\e91b'
+.icon-support:before{
+    content:'\e604'
 }
-.icon-lifebuoy:before{
-    content:'\e941'
+.icon-user:before{
+    content:'\e605'
 }
-.icon-phone:before{
-    content:'\e942'
-}
-.icon-envelop:before{
-    content:'\e945'
-}
-.icon-location:before{
-    content:'\e947'
-}
-.icon-compass2:before{
-    content:'\e94a'
-}
-.icon-spinner10:before{
-    content:'\e983'
+.icon-spinner:before{
+    content:'\e606'
 }
 .icon-search:before{
-    content:'\e986'
+    content:'\e607'
 }
-.icon-cloud:before{
-    content:'\e9c1'
+.icon-cog:before{
+    content:'\e609'
 }
-.icon-cloud-download:before{
-    content:'\e9c2'
+.icon-bug:before{
+    content:'\e60a'
+}
+.icon-stats:before{
+    content:'\e60b'
+}
+.icon-meter2:before{
+    content:'\e60c'
+}
+.icon-fire:before{
+    content:'\e60d'
+}
+.icon-menu:before{
+    content:'\e600'
 }
 .icon-earth:before{
-    content:'\e9ca'
+    content:'\e610'
 }
-.icon-info:before{
-    content:'\ea0c'
+.icon-link:before{
+    content:'\e611'
 }
-.icon-cancel:before{
-    content:'\ea0d'
+.icon-star:before{
+    content:'\e612'
 }
-.icon-circle-right:before{
-    content:'\ea42'
+.icon-star2:before{
+    content:'\e613'
 }
-.icon-google-plus2:before{
-    content:'\ea89'
+.icon-star3:before{
+    content:'\e614'
 }
-.icon-facebook2:before{
-    content:'\ea8d'
+.icon-heart:before{
+    content:'\e615'
 }
-.icon-twitter2:before{
-    content:'\ea92'
+.icon-warning:before{
+    content:'\e616'
 }
-.icon-feed3:before{
-    content:'\ea95'
+.icon-notification:before{
+    content:'\e617'
+}
+.icon-question:before{
+    content:'\e618'
+}
+.icon-cancel,
+.icon-cancel-circle:before{
+    content:'\e619'
+}
+.icon-checkmark-circle:before{
+    content:'\e61a'
 }
 
 
@@ -235,7 +244,6 @@ header{
 
 header nav{
     color:#fff;
-    height:20px;
     left:0;
     overflow:hidden;
     position:absolute
@@ -261,8 +269,16 @@ header nav li:hover{
 }
 
 header form{
-    padding:20px 0 0 0;
     position:relative
+}
+header form:before{
+    color:#fff;
+    display:inline-block;
+    font-size:1.4rem;
+    position:absolute;
+    right:10px;
+    top:8px;
+    z-index:4
 }
 header form button{
     display:none
@@ -271,7 +287,6 @@ header form input{
     background:rgba(0,0,0,.6);
     border:0;
     border-radius:4px;
-    box-shadow:0 1px 0 rgba(0,0,0,.9) inset,0 -1px 0 rgba(255,255,255,.3) inset;
     color:#fff;
     cursor:pointer;
     font-size:14px;
@@ -366,10 +381,6 @@ header,
 }
 
 footer{
-    background:rgba(0,0,0,.75);
-    bottom:0;
-    color:#fff;
-    padding:10px 20px;
     text-align:center;
     top:auto
 }
@@ -391,7 +402,7 @@ footer{
     border-top-left-radius:4px;
     border-top-right-radius:4px
 }
-.searchSuggest li:last-child {
+.searchSuggest li:last-child{
     border-bottom-left-radius:4px;
     border-bottom-right-radius:4px
 }
@@ -406,53 +417,119 @@ footer{
 /* RD */
 @media(max-width:767px){
     header{
+        background:transparent;
+        bottom:10px;
+        top:auto;
         z-index:3
     }
+    header h1{
+        display:none
+    }
     header nav{
-        bottom:38px;
-        border-radius:0 4px 0 0;
-        font-size:1.8rem;
-        height:54px;
-        padding:16px;
-        position:fixed;
+        overflow:visible;
+        position:absolute;
         text-align:left;
         z-index:4
     }
     header nav > a{
-        background:rgba(0,0,0,.8);
-        border-radius:8px;
-        box-shadow:0 1px 0 rgba(255,255,255,.3);
+        background:#fff;
+        border-radius:50%;
+        box-shadow:0 0 1px rgba(0,0,0,.5);
+        color:transparent;
         display:inline-block;
-        margin-bottom:4px;
+        height:38px;
+        left:16px;
         padding:6px 9px;
+        position:relative;
+        top:-1px;
+        width:38px;
         text-align:center
     }
-    header nav:target,
-    header nav:hover{
-        background:rgba(0,0,0,.7);
-        height:auto;
-        padding-bottom:42px
+    header nav > a:before{
+        color:#555;
+        font-size:2.2rem;
+        left:-1px;
+        position:relative;
+        top:1px
     }
-    header nav:target > a,
-    header nav:hover > a{
-        background:transparent;
-        border-bottom:1px rgba(0,0,0,.3) solid;
+
+    header > nav > ul{
+        background:rgba(0,0,0,.9);
+        box-shadow:-2px 0 2px rgba(0,0,0,.8) inset;
+        display:none;
+        left:0;
+        height:100vh;
+        overflow:scroll;
+        position:fixed;
+        top:0;
+        width:200px
+    }
+    header > nav > ul:before{
+        color:#fff;
+        content:'Pick a place';
+        display:block;
+        font-size:2.4rem;
+        font-weight:200;
+        margin:20px 0;
+        text-align:center
+    }
+    header > nav > ul > li{
         border-radius:0;
+        font-size:1.3rem;
+        padding:8px 14px;
+        text-align:right
+    }
+    header nav:target ul,
+    header nav:hover ul{
         display:block
     }
-    header nav ul{
-        max-height:70vh;
-        overflow:scroll
+
+    header form{
+        margin-left:60px
     }
-    header nav li{
-        border-radius:4px;
-        font-size:1.3rem;
-        padding:4px 6px;
+    header form:before{
+        background:#fff;
+        border-radius:50%;
+        box-shadow:0 0 1px rgba(0,0,0,.5);
+        color:#555;
+        font-size:2.2rem;
+        padding:6px;
+        right:0;
+        top:0
+    }
+    header form:hover:before{
+        display:none
+    }
+    header form input{
+        background:transparent;
+        color:transparent;
+        height:38px;
+        text-align:right
+    }
+    header form:hover input,
+    header form input:focus{
+        background:#fff;
+        box-shadow:0 0 1px rgba(0,0,0,.5);
+        color:#555;
         text-align:left
+    }
+
+    .searchSuggest{
+        bottom:39px;
+        width:100%
+    }
+    .searchSuggest li{
+        background:#fff;
+        box-shadow:0 0 1px rgba(0,0,0,.5);
+        color:#555
     }
 
     #modal{
         z-index:3
+    }
+
+    footer{
+        display:none
     }
 }
 
@@ -463,6 +540,7 @@ footer{
 
     header nav{
         display:inline-block;
+        height:20px;
         left:auto;
         position:absolute;
         right:240px;
@@ -470,6 +548,12 @@ footer{
     }
     header nav > a{
         font-size:1.4rem
+    }
+    header nav > a:before{
+        color:rgba(255,255,255,.5);
+        font-size:1.2rem;
+        left:-3px;
+        position:relative
     }
     header nav ul{
         margin-right:-50px;
@@ -485,7 +569,6 @@ footer{
     header nav li:last-child{
         border-radius:0 0 4px 4px
     }
-
     header form{
         display:inline-block;
         padding:0;
@@ -494,9 +577,19 @@ footer{
         top:14px;
         width:200px
     }
+    header form input{
+        box-shadow:0 1px 0 rgba(0,0,0,.9) inset,0 -1px 0 rgba(255,255,255,.3) inset
+    }
 
     footer{
-        text-align:left
+        background:rgba(0,0,0,.6);
+        bottom:20px;
+        border-radius:4px;
+        color:#fff;
+        left:20%;
+        padding:6px 20px;
+        text-shadow:0 0 2px #000;
+        width:60%
     }
 }
 
