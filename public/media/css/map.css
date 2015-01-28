@@ -350,13 +350,17 @@ header,
     height:40px;
     overflow:hidden;
     position:absolute;
-    right:0;
+    right:-5px;
     text-shadow:none;
-    top:10px;
+    top:0;
     width:40px
 }
+.modal > .close:active,
+.modal > .close:focus{
+    box-shadow:none
+}
 .modal > .close:before{
-    color:#555;
+    color:#808080;
     font-size:2rem;
     position:absolute
 }
@@ -369,7 +373,8 @@ header,
 .modal h1{
     font-size:3rem;
     line-height:3rem;
-    margin:0 0 18px 0
+    margin:0 0 18px 0;
+    text-align:left
 }
 .modal h2{
     font-size:2.4rem;
