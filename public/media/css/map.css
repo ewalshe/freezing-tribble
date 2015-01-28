@@ -460,7 +460,9 @@ footer{
         color:#555;
         font-size:2.4rem;
         left:-2px;
-        position:relative
+        position:relative;
+        -webkit-transform:scale(2,2);
+        transform:scale(2,2)
     }
 
     header > nav > ul{
