@@ -23,7 +23,7 @@
 
 
     $map = q$('#map');
-    pointKeys = 'title,summary,lat,lng,order,icon,image,detail'.split(',');
+    pointKeys = 'title,summary,lat,lng,order,icon,image,detail,markdown'.split(',');
 
 
     // XMLHTTP
@@ -72,6 +72,31 @@
     };
 
 
+    // Load <SCRIPT>
+    var loadScript = function (url, callback) {
+        var script = doc.createElement('script');
+
+        script.src = url;
+
+        if (callback) {
+            if (script.readyState){
+                script.onreadystatechange = function(){
+                    if (script.readyState == 'loaded' || script.readyState == 'complete') {
+                        script.onreadystatechange = null;
+                        callback();
+                    }
+                };
+            } else {
+                script.onload = function () {
+                    callback();
+                };
+            }
+        }
+
+        doc.getElementsByTagName('head')[0].appendChild(script);
+    };
+
+
     // Strip markup from a string
     var stripHTML = function (html) {
         var tempEl = doc.createElement('i'),
@@ -86,7 +111,9 @@
 
 
     // Simple 2-way binding
-    function bindModelInput(obj, property, el) {
+    var bindModelInput = function (obj, property, el) {
+        el.value = obj[property];
+
         Object.defineProperty(obj, property, {
             get: function() {
                 return el.value;
@@ -96,9 +123,10 @@
             },
             configurable: true
         });
-    }
+    };
 
-    // Apply template to model
+
+    // Simple templating
     var applyTemplate = function (model, template) {
         var tmpl = template || '';
 
@@ -195,10 +223,7 @@
             };
         }
 
-
         map = data.config.map;
-
-
         latLg = new google.maps.LatLng(parseFloat(map.lat), parseFloat(map.long));
 
         // Set-up gMap
@@ -219,7 +244,6 @@
             styles                  : map.style || [],
             mapTypeId               : google.maps.MapTypeId.ROADMAP
         });
-
 
         // Add markers and populate point-of-interest menu, init routing
         addMapMarkers(data);
@@ -298,6 +322,10 @@
 
 
 
+    var initMarkdownEditor = function () {
+        console.log(marked('# Marked in browser\n\nRendered by **marked**.'));
+    };
+
 
     var editPoint = function (index) {
         var editPane = q$('#points .newPoint'),
@@ -314,7 +342,6 @@
             var el = q$('[data-id="' + key + '"]', editPane);
 
             if (el) {
-                el.value = obj[key];
                 bindModelInput(obj, key, el);
             }
         });
@@ -370,4 +397,7 @@
     // Load existing data
     XHR('map.json', {callback: init});
 
+
+    // Postload support files
+    loadScript('media/js/marked.js', initMarkdownEditor);
 }(window, document));
