@@ -224,7 +224,7 @@ template{
     top:50%
 }
 .intro h1{
-    bottom:20%;
+    bottom:24%;
     position:absolute;
     text-align:center;
     text-shadow:1px 1px 0 #fff;
@@ -260,7 +260,10 @@ header nav li{
     cursor:pointer;
     display:block;
     margin:0;
-    list-style-type:none
+    list-style-type:none;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
 }
 header nav li:hover{
     background:#56a1e4;
@@ -407,7 +410,10 @@ footer{
     color:#fff;
     cursor:pointer;
     list-style-type:none;
-    padding:4px 6px
+    overflow:hidden;
+    padding:4px 6px;
+    text-overflow:ellipsis;
+    white-space:nowrap
 }
 .searchSuggest li:first-child{
     border-top-left-radius:4px;
@@ -443,10 +449,10 @@ footer{
         z-index:5
     }
     header nav > a{
-        background:#fff;
+        background:#57a8f1;
         border:1px rgba(0,0,0,.2) solid;
         border-radius:50%;
-        box-shadow:0 0 0 1px #fff,0 0 0 2px #fff,0 0 2px #000;
+        box-shadow:0 0 0 1px #fff,0 0 0 2px #fff,0 0 0 3px #fff,0 0 0 4px #999;
         color:transparent;
         display:inline-block;
         height:60px;
@@ -458,7 +464,7 @@ footer{
         text-align:center
     }
     header nav > a:before{
-        color:#57a8f1;
+        color:#fff;
         font-size:3rem;
         font-weight:100;
         left:5px;
@@ -477,6 +483,7 @@ footer{
         overflow:scroll;
         position:fixed;
         top:0;
+        -webkit-overflow-scrolling:touch;
         width:200px
     }
     header > nav > ul:before{
@@ -490,7 +497,7 @@ footer{
     }
     header > nav > ul > li{
         border-radius:0;
-        font-size:1.3rem;
+        font-size:1.5rem;
         padding:8px 14px;
         text-align:right
     }
@@ -503,11 +510,11 @@ footer{
         margin-left:80px
     }
     header form:before{
-        background:#fff;
+        background:#57a8f1;
         border-radius:50%;
         border:1px rgba(0,0,0,.2) solid;
-        box-shadow:0 0 0 1px #fff,0 0 0 2px #fff;
-        color:#57a8f1;
+        box-shadow:0 0 0 1px #fff,0 0 0 2px #fff,0 0 0 3px #fff,0 0 0 4px #999;
+        color:#fff;
         font-size:3rem;
         padding:14px;
         right:0;
@@ -540,8 +547,9 @@ footer{
     }
     .searchSuggest li{
         background:#fff;
-        box-shadow:0 0 1px rgba(0,0,0,.5);
-        color:#555
+        box-shadow:0 0 1px rgba(0,0,0,.3);
+        color:#555;
+        padding:8px
     }
 
     #modal{
@@ -576,6 +584,7 @@ footer{
         position:relative
     }
     header nav ul{
+        max-height:50vh;
         margin-right:-50px;
         padding:20px 40px 40px 40px
     }
@@ -584,7 +593,7 @@ footer{
         padding:4px 8px
     }
     header nav li:first-child{
-        box-shadow:0 1px 1px rgba(0,0,0,.5) inset;
+        box-shadow:0 1px 1px rgba(0,0,0,.5) inset
     }
     header nav li:last-child{
         border-radius:0 0 4px 4px
