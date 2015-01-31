@@ -254,7 +254,7 @@
             map         : gmap,
             clickable   : true,
             title       : marker.title,
-            icon        : marker.icon || 'media/img/marker.png'
+            icon        : marker.icon || 'media/img/themes/red/marker.png'
         });
 
         marker.mark = mark;

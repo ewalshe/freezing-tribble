@@ -224,7 +224,7 @@ template{
     top:50%
 }
 .intro h1{
-    bottom:15%;
+    bottom:20%;
     position:absolute;
     text-align:center;
     text-shadow:1px 1px 0 #fff;
@@ -444,8 +444,9 @@ footer{
     }
     header nav > a{
         background:#fff;
+        border:1px rgba(0,0,0,.2) solid;
         border-radius:50%;
-        box-shadow:0 0 1px rgba(0,0,0,.6);
+        box-shadow:0 0 0 1px #fff,0 0 0 2px #fff,0 0 2px #000;
         color:transparent;
         display:inline-block;
         height:60px;
@@ -457,11 +458,12 @@ footer{
         text-align:center
     }
     header nav > a:before{
-        color:#777;
-        font-size:4rem;
-        left:2px;
+        color:#57a8f1;
+        font-size:3rem;
+        font-weight:100;
+        left:5px;
         position:relative;
-        top:3px;
+        top:7px;
         -webkit-transform:scale(2,2);
         transform:scale(2,2)
     }
@@ -503,12 +505,13 @@ footer{
     header form:before{
         background:#fff;
         border-radius:50%;
-        box-shadow:0 0 1px rgba(0,0,0,.5);
-        color:#777;
+        border:1px rgba(0,0,0,.2) solid;
+        box-shadow:0 0 0 1px #fff,0 0 0 2px #fff;
+        color:#57a8f1;
         font-size:3rem;
-        padding:15px;
+        padding:14px;
         right:0;
-        top:-28px;
+        top:-29px;
     }
     header form:hover:before{
         display:none
