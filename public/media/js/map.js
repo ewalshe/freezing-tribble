@@ -300,7 +300,7 @@
             alert('Could not parse data, sorry :(');
             return;
         }
-        if (!data.config.map || !data.config.map.lat || !data.config.map.long) {
+        if (!data.config.map || !data.config.map.lat || !data.config.map.lng) {
             alert('Sorry, no start coordinates, quitting.');
             return;
         }
@@ -315,7 +315,7 @@
             maxSearchSuggestions = data.config.maxSearchSuggestions;
         }
 
-        latLg = new google.maps.LatLng(parseFloat(map.lat), parseFloat(map.long));
+        latLg = new google.maps.LatLng(parseFloat(map.lat), parseFloat(map.lng));
 
         // Set-up gMap
         gmap = new google.maps.Map($map, {

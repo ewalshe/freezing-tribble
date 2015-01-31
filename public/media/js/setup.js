@@ -5,8 +5,15 @@
         pointKeys = [],
         markers = [],
         $map,
-        data,
         gmap;
+
+    win.data = {};
+
+    // Are we supported?
+    if (!doc.querySelector || !Object.keys || !win.google || !win.google.maps) {
+        alert('Sorry, there was a problem loading.');
+        return;
+    }
 
 
     // Shorthand querySelectors
@@ -201,7 +208,7 @@
 
         // Attempt to parse existing data
         try {
-            data = JSON.parse(txt);
+            win.data = JSON.parse(txt);
         } catch(ignore) {};
 
 
@@ -214,7 +221,7 @@
                     "proximity"         : 10,
                     "map": {
                         "lat"           : 53.44880683542759,
-                        "long"          : -7.734375,
+                        "lng"           : -7.734375,
                         "zoom"          : 7,
                         "style"         : [{"featureType": "all", "stylers" : [{"saturation": -70},{"lightness": 20}]}]
                     }
@@ -224,7 +231,7 @@
         }
 
         map = data.config.map;
-        latLg = new google.maps.LatLng(parseFloat(map.lat), parseFloat(map.long));
+        latLg = new google.maps.LatLng(parseFloat(map.lat), parseFloat(map.lng));
 
         // Set-up gMap
         gmap = new google.maps.Map($map, {
@@ -266,9 +273,8 @@
             console.log('Click');
 
             if (basics) {
-                q$('#long', basics).value = lng;
-                q$('#lat', basics).value = lat;
-                console.log('Setting basics to ' + lng);
+                data.config.map.lng = lng;
+                data.config.map.lat = lat;
             }
 
             if (points) {
@@ -280,17 +286,38 @@
             gmap.panTo(latLg);
         });
 
-        q$('#zoom').addEventListener('change', function (e) {
-            console.log('Zoom: ' + this.value);
-        });
 
-        q$('#showOverlayDelay').addEventListener('change', function (e) {
-            console.log('Delay: ' + this.value);
-        });
+        // Listen for Map zoom level changes (TODO: DRY)
+        var zoomInput = q$('#zoom'),
+            zoomHandler = function (el) {
+                var val = parseInt(zoomInput.value, 10);
 
-        q$('#proximity').addEventListener('change', function (e) {
-            console.log('Prox: ' + this.value);
-        });
+                data.config.map.zoom = val;
+                gmap.setZoom(val);
+            };
+
+        zoomInput.addEventListener('change', zoomHandler, true);
+        zoomInput.addEventListener('input', zoomHandler, true);
+
+
+        // Listen for Modal delay changes
+        var delayInput = q$('#showOverlayDelay'),
+            delayHandler = function () {
+                data.config.showOverlayDelay = delayInput.value;
+            };
+
+        delayInput.addEventListener('input', delayHandler, true);
+        delayInput.addEventListener('change', delayHandler, true);
+
+
+        // Listen for what is considered close changes
+        var proximityInput = q$('#proximity'),
+            proximityHandler = function (el) {
+                data.config.proximity = proximityInput.value;
+            };
+
+        proximityInput.addEventListener('change', proximityHandler, true);
+        proximityInput.addEventListener('input', proximityHandler, true);
     };
 
 
@@ -320,23 +347,232 @@
     }, true);
 
 
+    // information modal
+    var modal = function (selector, cb) {
+        var selector    = selector || '#modal',
+            $modal      = q$(selector),
+            $detail     = q$('article', $modal),
+            callbacks   = cb || {},
+            active      = false,
+            activeEl;
+
+        // Is modal visible to user?
+        var isActive = function () {
+            return active;
+        };
+
+        // populate modal contents
+        var populate = function (markup) {
+            $detail.innerHTML = markup;
+            $detail.scrollTop = 0;
+
+            return modal;
+        };
+
+        // show modal
+        var show = function (content) {
+            activeEl = doc.activeElement || null;
+
+            if (content && content.length > 0) {
+                populate(content);
+            }
+
+            docEl.className += ' modalActive';
+            $modal.focus();
+            active = true;
+
+            return modal;
+        };
+
+        // Hide modal
+        var hide = function () {
+            docEl.className = (' ' + docEl.className + ' ').split(' modalActive ').join(' ');
+            doc.location.hash = '';
+            active = false;
+
+            if (activeEl) {
+                activeEl.focus();
+            }
+
+            return modal;
+        };
+
+
+        // Keyboard navigation
+        doc.addEventListener('keydown', function (e) {
+            if (active === true && e.keyCode === 27) {
+                hide();
+            }
+        }, true);
+
+
+        // Close button
+        q$('#closeModal', $modal).addEventListener('click', hide, false);
+
+
+        // API
+        return {
+            active      : isActive,
+            el          : $modal,
+            element     : $modal,
+            hide        : hide,
+            populate    : populate,
+            show        : show
+        };
+    } ();
+
+
+    // Markdown
+    var markdownEditor = function () {
+        var evts = 'change keyup blur focus'.split(' '),
+            ready = false,
+            renderer,
+            editor;
+
+
+        // Real time markdown to HTML conversion
+        var convert = function (e) {
+            if (renderer) {
+                if (e) {
+                    e.stopImmediatePropagation();
+                }
+                renderer.innerHTML = save();
+            }
+
+            return markdownEditor;
+        };
+
+
+        // Setup / check availability
+        var init = function (input, output) {
+            if (!input) {
+                return ready;
+            }
+
+            if (!win.marked) {
+                alert('Markdown library not available');
+                return;
+            }
+
+            ready = true;
+
+            renderer = output;
+            editor = input;
+
+            if (typeof editor === 'string') {
+                renderer = q$(renderer);
+                editor = q$(editor);
+            }
+
+            if (renderer) {
+                evts.forEach(function (evt) {
+                    editor.addEventListener(evt, convert, true);
+                });
+            }
+
+            return markdownEditor;
+        };
+
+
+        // Remove event handlers
+        var kill = function () {
+            if (renderer) {
+                evts.forEach(function (evt) {
+                    editor.removeEventListener(evt, convert);
+                });
+            }
+        };
+
+
+        // Save contents with an optional kill.
+        var save = function (killEditor) {
+            if (killEditor) {
+                kill();
+            }
+            return marked(editor.value);
+        };
+
+
+        // Get current markdown
+        var getMarkdown = function () {
+            return editor.value;
+        };
+
+
+        // Set
+        var setMarkdown = function (contents) {
+            if (!ready) {
+                setTimeout(function () {
+                    setMarkDown(contents);
+                }, 99);
+                return;
+            }
+
+            if (editor) {
+                editor.value = contents;
+            }
+
+            if (renderer) {
+                convert();
+            }
+
+            return markdownEditor;
+        };
+
+
+        // Create JSON storable markdown Array
+        var toArray = function (md) {
+            var arr = [];
+
+            md.split('\n').forEach(function (line) {
+                 arr.push(line);
+            });
+
+            return arr;
+        };
+
+
+        // Flatten array into markdown string
+        var fromArray = function (arr) {
+            return arr.join('\n');
+        };
+
+
+        // Public API
+        return {
+            fromArray   : fromArray,
+            get         : save,
+            kill        : kill,
+            init        : init,
+            markdown    : getMarkdown,
+            save        : save,
+            set         : setMarkdown,
+            ready       : init,
+            toArray     : toArray
+        };
+    } ();
 
 
     var initMarkdownEditor = function () {
-        console.log(marked('# Marked in browser\n\nRendered by **marked**.'));
+        modal.populate(q$('#editor').innerHTML);
+        markdownEditor.init('.editorMarkdown', '.editorHTML');
+
+        q$('.editorSave', modal.el).onclick = function () {
+            q$('[data-id=detail]').value = markdownEditor.get();
+            q$('[data-id=markdown]').value = markdownEditor.markdown();
+            modal.hide();
+        };
     };
 
 
     var editPoint = function (index) {
         var editPane = q$('#points .newPoint'),
             template = q$('#editExistingPoint').innerHTML,
-            obj = data.markers[index];
+            obj = data.markers[index],
+            details;
 
 
         editPane.innerHTML = applyTemplate(obj, template);
-
-        console.log(index);
-        console.log(obj);
 
         Object.keys(obj).forEach(function (key) {
             var el = q$('[data-id="' + key + '"]', editPane);
@@ -345,6 +581,13 @@
                 bindModelInput(obj, key, el);
             }
         });
+
+        details = q$('[data-id=detail]', editPane);
+
+        details.onclick = function () {
+            markdownEditor.set(q$('[data-id=markdown]').value);
+            modal.show();
+        };
     };
 
 
@@ -361,10 +604,11 @@
 
 
     doc.addEventListener('keyup', function () {
-        console.log(data.markers);
+        //console.log(data.markers);
     }, true);
 
 
+    // Generate stringified JSON
     var exportData = function () {
         var anchor = doc.createElement('a'),
             str;
@@ -372,9 +616,15 @@
 
         // Clean up data
         data.markers.forEach(function (marker) {
+            var md = marker.markdown.toString();
+
+            delete marker.markdown;
+
             if (marker.mark) {
                 delete marker.mark;
             }
+
+            marker.markdown = md.split('\n');   // Horrible workaround to crazy forced string
         });
 
         str = JSON.stringify(data);
@@ -387,6 +637,8 @@
         anchor.click();
     };
 
+
+    // Export JSON
     q$('#export').addEventListener('click', function (e) {
         e.preventDefault();
 

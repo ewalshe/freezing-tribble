@@ -445,22 +445,23 @@ footer{
     header nav > a{
         background:#fff;
         border-radius:50%;
-        box-shadow:0 0 1px rgba(0,0,0,.5);
+        box-shadow:0 0 1px rgba(0,0,0,.6);
         color:transparent;
         display:inline-block;
-        height:38px;
+        height:60px;
         left:16px;
         padding:6px 9px;
         position:relative;
-        top:-1px;
-        width:38px;
+        top:-30px;
+        width:60px;
         text-align:center
     }
     header nav > a:before{
-        color:#555;
-        font-size:2.4rem;
-        left:-2px;
+        color:#777;
+        font-size:4rem;
+        left:2px;
         position:relative;
+        top:3px;
         -webkit-transform:scale(2,2);
         transform:scale(2,2)
     }
@@ -497,17 +498,17 @@ footer{
     }
 
     header form{
-        margin-left:60px
+        margin-left:80px
     }
     header form:before{
         background:#fff;
         border-radius:50%;
         box-shadow:0 0 1px rgba(0,0,0,.5);
-        color:#555;
-        font-size:2rem;
-        padding:8px;
+        color:#777;
+        font-size:3rem;
+        padding:15px;
         right:0;
-        top:0
+        top:-28px;
     }
     header form:hover:before{
         display:none
@@ -517,7 +518,8 @@ footer{
         color:transparent;
         height:38px;
         position:relative;
-        text-align:right
+        text-align:right;
+        top:-17px
     }
     header form:hover input,
     header form input:focus{

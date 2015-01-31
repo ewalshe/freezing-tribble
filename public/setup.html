@@ -6,25 +6,6 @@
     <link rel="stylesheet" href="media/css/setup.css">
     <title>Setup PlacesOfInterest</title>
     <meta name="description" content="">
-    <link rel="canonical" href="//freezing-tribble.herokuapp.com/">
-    <link rel="apple-touch-icon" href="favicon.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="PlacesOfInterest">
-    <meta name="application-name" content="PFQ.ie">
-    <meta name="msapplication-TileColor" content="#000000">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_IE">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="/favicon.png">
-    <meta property="fb:admins" content="">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@">
-    <meta name="twitter:creator" content="@">
-    <meta name="twitter:title" content="">
-    <meta name="twitter:description" content="">
-    <meta name="twitter:image" content="/favicon.png">
 </head>
 <body role="application" class="placesOfInterest">
 
@@ -33,13 +14,24 @@
 <article id="setup">
     <ul>
         <li id="basics" class="active">
-            <a href="#basics" title="Set where the map loads, how it's zoomed, how long the modal will appear and what's considered close for individual places."><h3>Basics</h3></a>
+            <a href="#basics" title="Set where the map loads, how it's zoomed, how long the modal will appear and what's considered close for individual places."><h3>Setup</h3></a>
             <section>
                 <h2>Basic settings</h2>
                 <p class="chooseCoords">Click where you'd like to start on the map.</p>
-                <p><label for="zoom">Map zoom</label><input type="range" name="zoom" id="zoom" min="1" value="7" max="20" list="zoomHints"></p>
-                <p><label for="showOverlayDelay">Modal delay <sup>ms</sup></label><input type="range" name="showOverlayDelay" id="showOverlayDelay" min="1" value="300" max="1000" list="showOverlayDelayHints"></p>
-                <p><label for="proximity">Considered close <sup>km</sup></label><input type="range" name="proximity" id="proximity" min="1" value="10" max="40"></p>
+                <p>
+                    <label for="zoom">Map zoom</label>
+                    <input type="range" name="zoom" id="zoom" min="1" value="7" max="20" list="zoomHints">
+                </p>
+                <p>
+                    <label for="showOverlayDelay">Modal delay <sup>ms</sup></label>
+                    <input type="range" name="showOverlayDelay" id="showOverlayDelay" min="1" value="300" max="1000" list="showOverlayDelayHints">
+                    <output for="showOverlayDelay" onforminput="value = showOverlayDelay.valueAsNumber"></output>
+                </p>
+                <p>
+                    <label for="proximity">Considered close <sup>km</sup></label>
+                    <input type="range" name="proximity" id="proximity" min="1" value="10" max="40">
+                    <output for="proximity" onforminput="value = proximity.valueAsNumber"></output>
+                </p>
                 <input type="hidden" name="lat" id="lat" value="">
                 <input type="hidden" name="long" id="long" value="">
             </section>
@@ -68,7 +60,7 @@
 </article>
 
 <dialog id="modal" class="modal" role="dialog">
-    <button id="closeModal" class="close icon-cancel" title="Close this window">Exit</button>
+    <button id="closeModal" class="close icon-cancel-circle" title="Close this window">Exit</button>
     <article role="article"></article>
 </dialog>
 
@@ -92,26 +84,46 @@
 
 <template id="editExistingPoint" hidden>
     <p class="chooseCoords">Click where you'd like to start on the map.</p>
-    <p><label for="title">Title</label><input type="text" name="title" id="title" data-id="title" value="" required></p>
-    <p><label for="order">Order</label><input type="range" name="order" id="order" data-id="order" min="1" value="10" max="1000"></p>
-    <p><label for="summary">Summary</label><textarea name="summary" id="summary" data-id="summary" cols="72" rows="3" required></textarea></p>
-    <p><label for="detail">Detail</label><textarea name="detail" id="detail" data-id="detail" cols="72" rows="10" required></textarea></p>
+    <p>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" data-id="title" value="" required>
+    </p>
+    <p>
+        <label for="order">Order</label>
+        <input type="range" name="order" id="order" data-id="order" min="1" value="10" max="1000">
+        <output for="order" onforminput="value = order.valueAsNumber"></output>
+    </p>
+
+    <p>
+        <label for="summary">Summary</label>
+        <textarea name="summary" id="summary" data-id="summary" cols="72" rows="3" required></textarea>
+    </p>
+    <p>
+        <label for="detail">Detail</label>
+        <textarea name="detail" id="detail" data-id="detail" cols="72" rows="10" required></textarea>
+    </p>
     <p class="col col-6 dropzone" id="imageDrop">
         <strong>Point image</strong>
     </p>
     <p class="col col-6 dropzone" id="iconDrop">
         <strong>Point icon</strong>
     </p>
+    <input type="hidden" name="markdown" id="markdown" data-id="markdown" value="">
     <input type="hidden" name="icon" id="icon" data-id="icon" value="">
     <input type="hidden" name="img" id="img" data-id="image" value="">
     <input type="hidden" name="lat" id="pointLat" data-id="lat" value="">
     <input type="hidden" name="long" id="pointLong" data-id="lng" value="">
 </template>
 
+<template id="modalContentTemplate" hidden>
+    <h1>{{title}}</h1>
+    {{detail}}
+</template>
+
 <template id="editor" hidden>
     <textarea class="editor editorMarkdown"></textarea>
     <div class="editor editorHTML"></div>
-    <p><button>Save</button></p>
+    <p><button class="editorSave">Save</button></p>
 </template>
 
 <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
