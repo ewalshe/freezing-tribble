@@ -534,8 +534,9 @@ footer{
     }
 
     .searchSuggest{
-        bottom:39px;
-        width:100%
+        bottom:56px;
+        width:100%;
+        z-index:6
     }
     .searchSuggest li{
         background:#fff;
