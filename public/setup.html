@@ -52,7 +52,7 @@
             <a href="#save" title="Export your changes."><h3>Save</h3></a>
             <section>
                 <h2>Save settings</h2>
-                <p></p>
+                <p><strong>Congratulations!</strong> You're created the data. Now click the 'Save' button below and place the _map.json file in your /public folder.</p>
                 <p><button id="export">Save Settings</button></p>
             </section>
         </li>
@@ -83,7 +83,7 @@
 </template>
 
 <template id="editExistingPoint" hidden>
-    <p class="chooseCoords">Click where you'd like to start on the map.</p>
+    <p class="chooseCoords icon-checkmark-circle">Click where you'd like to start on the map.</p>
     <p>
         <label for="title">Title</label>
         <input type="text" name="title" id="title" data-id="title" value="" required>
@@ -93,7 +93,6 @@
         <input type="range" name="order" id="order" data-id="order" min="1" value="10" max="1000">
         <output for="order" onforminput="value = order.valueAsNumber"></output>
     </p>
-
     <p>
         <label for="summary">Summary</label>
         <textarea name="summary" id="summary" data-id="summary" cols="72" rows="3" required></textarea>
@@ -102,10 +101,10 @@
         <label for="detail">Detail</label>
         <textarea name="detail" id="detail" data-id="detail" cols="72" rows="10" required></textarea>
     </p>
-    <p class="col col-6 dropzone" id="imageDrop">
+    <p class="col col-6 dropzone icon-link" id="imageDrop">
         <strong>Point image</strong>
     </p>
-    <p class="col col-6 dropzone" id="iconDrop">
+    <p class="col col-6 dropzone icon-link" id="iconDrop">
         <strong>Point icon</strong>
     </p>
     <input type="hidden" name="markdown" id="markdown" data-id="markdown" value="">
@@ -128,5 +127,6 @@
 
 <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="media/js/setup.js"></script>
+<script src="media/js/floatingFocus.js" async></script>
 </body>
 </html>

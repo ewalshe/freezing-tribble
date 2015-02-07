@@ -289,7 +289,7 @@
             map;
 
         if (status < 200 || status > 399) {
-            alert('Sorry, an error occurred :(');
+            doc.location = 'setup.html';
             return;
         }
 

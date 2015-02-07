@@ -585,12 +585,17 @@ footer{
     }
     header nav ul{
         max-height:50vh;
+        max-width:330px;
         margin-right:-50px;
+        overflow:auto;
         padding:20px 40px 40px 40px
     }
     header nav li{
         background:rgba(0,0,0,.7);
-        padding:4px 8px
+        overflow:hidden;
+        padding:4px 8px;
+        text-overflow:ellipsis;
+        white-space:nowrap
     }
     header nav li:first-child{
         box-shadow:0 1px 1px rgba(0,0,0,.5) inset
@@ -636,4 +641,48 @@ header,
     -webkit-transition:.4s;
     -moz-transition:.4s;
     transition:.4s
+}
+
+header,
+#map{
+    opacity:1;
+    will-change:opacity,transform;
+    -webkit-transition:.25s;
+    -moz-transition:.25s;
+    transition:.25s;
+    z-index:8
+}
+header{
+    z-index:9
+}
+.modalActive header,
+.modalActive #map{
+    opacity:0;
+    pointer-events:none;
+    -webkit-transform:translatesY(100%);
+    transform:scale(3,3)
+}
+.modalActive header{
+    -webkit-transform:scale(6,6);
+    transform:scale(6,6)
+}
+#modal{
+    will-change:opacity,transform;
+    -webkit-transform:scale(0,0);
+    transform:scale(0,0);
+    -webkit-transition:.5s;
+    -moz-transition:.5s;
+    transition:.5s;
+    z-index:4
+}
+.modalActive #modal{
+    -webkit-transform:scale(1,1);
+    transform:scale(1,1)
+}
+
+.intro.hide{
+
+}
+.intro.hide.destroy{
+    display:none
 }

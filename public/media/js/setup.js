@@ -119,7 +119,13 @@
 
     // Simple 2-way binding
     var bindModelInput = function (obj, property, el) {
-        el.value = obj[property];
+        var val = obj[property];
+
+        if (Array.isArray(val)) {
+            val = val.join('\n');
+        }
+
+        el.value = val;
 
         Object.defineProperty(obj, property, {
             get: function() {
@@ -222,8 +228,7 @@
                     "map": {
                         "lat"           : 53.44880683542759,
                         "lng"           : -7.734375,
-                        "zoom"          : 7,
-                        "style"         : [{"featureType": "all", "stylers" : [{"saturation": -70},{"lightness": 20}]}]
+                        "zoom"          : 7
                     }
                 },
                 "markers": []

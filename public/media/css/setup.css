@@ -56,6 +56,7 @@ button{
     background:-webkit-linear-gradient(#77c2fd,#5eaef5 50%,#57a8f1 51%,#4296e7);
     background:linear-gradient(#77c2fd,#5eaef5 50%,#57a8f1 51%,#4296e7);
     border:1px #4296e7 solid;
+    border-radius:2px;
     box-shadow:0 1px 0 #fff;
     color:#fff;
     font-size:1.6rem;
@@ -77,12 +78,34 @@ button:active{
     background:linear-gradient(#5eaef5,#77c2fd 50%,#77c2fd);
     box-shadow:0 3px 6px rgba(0,0,0,.2) inset,0 0 13px #77c2fd,0 0 23px #77c2fd,0 0 6px #77c2fd
 }
-input[type=search]:focus{
-    font-size:16px
+input[type=text],
+input[type=search],
+textarea{
+    border:1px #c0c0c0 solid;
+    border-radius:2px;
+    font-size:1.4rem;
+    padding:4px 6px
+}
+input[type=text]:hover,
+input[type=search]:hover,
+input[type=search]:hover,
+textarea:hover{
+    border-color:#5eaef5
+}
+input[type=text]:focus,
+input[type=search]:focus,
+input[type=search]:focus,
+textarea:focus{
+    border-color:#5eaef5;
+    box-shadow:0 0 3px #5eaef5
 }
 textarea{
-    line-height:1.6em;
-    padding:10px
+    line-height:1.6em
+}
+label{
+    display:inline-block;
+    font-size:1.4rem;
+    padding-top:4px
 }
 dialog,
 footer,
@@ -125,14 +148,18 @@ template{
 .col-3{
     width:33%
 }
+.col-4{
+    width:38%
+}
 .col-6{
-    width:45%
+    width:50%
 }
 
 
 /* Icons */
 [class^='icon-']:before,
-[class*=' icon-']:before{
+[class*=' icon-']:before,
+.chooseCoords:after{
     font-family:'icon';
     font-style:normal;
     font-variant:normal;
@@ -173,6 +200,7 @@ template{
 .icon-menu:before{
     content:'\e600'
 }
+.chooseCoords:after,
 .icon-earth:before{
     content:'\e610'
 }
@@ -228,7 +256,7 @@ main{
     height:32vh;
     left:3%;
     overflow:hidden;
-    padding:40px;
+    padding:20px;
     position:fixed;
     width:94%;
     z-index:2
@@ -275,19 +303,22 @@ main{
 #setup > ul > li > section{
     display:none;
     height:100%;
+    left:130px;
     overflow:auto;
     position:absolute;
-    top:0;
-    width:100%
+    right:0
 }
 #setup > ul > li.active > section{
     display:block;
     z-index:2
 }
+#setup > ul > li > section h2{
+    display:none
+}
 
 #basics p{
-    border:1px #e2e2e2 dotted;
-    height:20px
+    height:20px;
+    margin:0 0 6px 0
 }
 #basics label{
     display:inline-block;
@@ -295,10 +326,33 @@ main{
     width:160px
 }
 #basics input{
-    left:170px;
+    left:140px;
+    position:relative;
+    width:80%
+}
+
+.chooseCoords{
+    color:rgba(0,0,0,.5);
+    font-size:1.6rem;
+    letter-spacing:1px;
+    margin-bottom:9px;
+    padding:40px 0 30px;
+    position:relative;
+    text-align:center
+}
+.chooseCoords:after{
+    font-size:3rem;
+    left:50%;
     position:absolute;
-    right:20px;
-    width:auto
+    top:0;
+    -webkit-transform:translateX(-50%);
+    transform:translateX(-50%)
+}
+.chooseCoords.icon-checkmark-circle:before{
+    color:green;
+    left:-4px;
+    position:relative;
+    top:1px
 }
 
 #setup .existingPoints,
@@ -308,20 +362,59 @@ main{
     overflow:auto
 }
 
+#setup .existingPoints legend{
+    display:block;
+    font-size:1.4rem;
+    font-weight:bold;
+    padding-bottom:10px;
+    top:-5px
+}
 #setup .existingPoints ul{
     left:-4px
 }
 #setup .existingPoints li{
+    border-radius:2px;
     cursor:pointer;
-    padding:2px 4px
+    padding:2px 0
 }
 #setup .existingPoints li:hover{
     background:#57a8f1;
-    color:#fff
+    color:#fff;
+    padding:2px 6px
+}
+
+#setup .newPoint{
+    padding:0 0 0 5%
+}
+#setup .newPoint .chooseCoords{
+    padding-left:60px;
+    position:relative
+}
+#setup .newPoint p{
+    margin-bottom:20px;
+    position:relative
+}
+#setup .newPoint label{
+    padding-right:10px;
+    position:absolute;
+    text-align:right;
+    width:20%
+}
+#setup .newPoint label + input,
+#setup .newPoint label + textarea{
+    left:20%;
+    position:relative;
+    width:80%
+}
+#setup .newPoint .dropzone{
+    padding-bottom:40px
 }
 
 #save section{
     text-align:center
+}
+#save section > h2 + p{
+    padding-bottom:40px
 }
 
 .modal{
