@@ -62,7 +62,7 @@
 
 
     $docEl = doc.documentElement;
-    $map = q$('#map');
+    $map = q$('#map .googleMap');
     $nav = q$('header > nav');
 
 
@@ -519,8 +519,16 @@
         // Perform a quick search
         var searchKeyWord = function (term) {
             var term = term.toLowerCase(),
-                sTerm = soundex(term),
-                results = [];
+                results = [],
+                sTerm;
+
+
+            if (term.length < 2) {
+                return;
+            }
+
+            term = term.toLowerCase();
+            sTerm = soundex(term);
 
             searchIndex.some(function (record) {
                 if (record.str.indexOf(term) > -1 || record.soundex.indexOf(sTerm) > -1) {
