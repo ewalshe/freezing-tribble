@@ -46,10 +46,23 @@ body{
     font-size:1.4rem;
     font-weight:400
 }
+input{
+    outline:none
+}
 button,
 input[type=checkbox],
 input[type=range]{
     cursor:pointer
+}
+input[type=search]{
+    -webkit-appearance:none;
+    -webkit-border-radius:0
+}
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-results-button,
+input[type=search]::-webkit-search-results-decoration{
+    -webkit-appearance:none;
 }
 button{
     background:-moz-linear-gradient(#77c2fd,#5eaef5 50%,#57a8f1 51%,#4296e7);
@@ -100,7 +113,8 @@ h3{
     font-weight:400
 }
 template{
-    display:none
+    display:none;
+    speak:none
 }
 
 
@@ -238,7 +252,12 @@ header{
     right:0;
     text-align:center;
     top:0;
-    width:auto
+    width:auto;
+    z-index:3
+}
+.ua-webkit.no-touch header h1{
+    font-weight:500;
+    text-shadow:0 1px 0 #000
 }
 
 header nav{
@@ -307,19 +326,24 @@ header form input:focus{
     left:0;
     position:absolute;
     width:100%;
-    z-index:1
+    will-change:transform;
+    z-index:2
+}
+.modalActive main{
+    pointer-events:none;
+    -webkit-transform:translateY(100%);
+    transform:translateY(100%);
+    z-index:6
 }
 
 footer,
-header,
-.map{
+header{
     will-change:opacity
 }
 
 .modalActive footer,
-.modalActive header,
-.modalActive .map{
-    opacity:.3
+.modalActive header{
+    opacity:0
 }
 
 .modal{
@@ -327,12 +351,20 @@ header,
     border:0;
     border-radius:2px;
     box-shadow:0 2px 66px rgba(0,0,0,.7);
-    display:none;
-    height:80%;
-    left:10%;
+    height:90%;
+    left:6%;
     padding:40px;
-    top:10%;
-    width:80%
+    top:5%;
+    width:90%;
+    will-change:opacity,transform;
+    -webkit-transform:scale(.7, .7);
+    transform:scale(.7, .7);
+    z-index:1
+}
+.modalActive #modal{
+    -webkit-transform:scale(1, 1);
+    transform:scale(1, 1);
+    z-index:4
 }
 .modalActive .modal{
     display:block
@@ -348,6 +380,7 @@ header,
     background:transparent none;
     border:0;
     border-radius:0;
+    box-shadow:none;
     cursor:pointer;
     color:transparent;
     height:40px;
@@ -396,7 +429,8 @@ header,
 
 footer{
     text-align:center;
-    top:auto
+    top:auto;
+    z-index:2
 }
 
 /* Widget search suggestions */
@@ -527,6 +561,7 @@ footer{
         background:transparent;
         color:transparent;
         height:38px;
+        opacity:0;
         position:relative;
         text-align:right;
         top:-17px
@@ -536,8 +571,18 @@ footer{
         background:#fff;
         box-shadow:0 0 1px rgba(0,0,0,.5);
         color:#555;
+        opacity:1;
         text-align:left;
         z-index:4
+    }
+
+    .modal{
+        border-radius:2px 2px 0 0;
+        height:95%;
+        padding-bottom:0
+    }
+    .modal > article{
+        height:100%
     }
 
     .searchSuggest{
@@ -550,10 +595,6 @@ footer{
         box-shadow:0 0 1px rgba(0,0,0,.3);
         color:#555;
         padding:8px
-    }
-
-    #modal{
-        z-index:3
     }
 
     footer{
@@ -630,59 +671,23 @@ footer{
 
 /* Animation */
 footer,
-header,
-.map{
+header{
     -webkit-transition:.6s;
     -moz-transition:.6s;
-    transition:.6s;
-    will-change:opacity
+    transition:.6s
 }
 .intro{
+    -webkit-transition:.5s;
+    -moz-transition:.5s;
+    transition:.5s
+}
+#modal{
     -webkit-transition:.4s;
     -moz-transition:.4s;
     transition:.4s
 }
-
-header,
-#map{
-    opacity:1;
-    will-change:opacity,transform;
-    -webkit-transition:.25s;
-    -moz-transition:.25s;
-    transition:.25s;
-    z-index:8
-}
-header{
-    z-index:9
-}
-.modalActive header,
-.modalActive #map{
-    opacity:0;
-    pointer-events:none;
-    -webkit-transform:translatesY(100%);
-    transform:scale(3,3)
-}
-.modalActive header{
-    -webkit-transform:scale(6,6);
-    transform:scale(6,6)
-}
-#modal{
-    will-change:opacity,transform;
-    -webkit-transform:scale(0,0);
-    transform:scale(0,0);
-    -webkit-transition:.5s;
-    -moz-transition:.5s;
-    transition:.5s;
-    z-index:4
-}
-.modalActive #modal{
-    -webkit-transform:scale(1,1);
-    transform:scale(1,1)
-}
-
-.intro.hide{
-
-}
-.intro.hide.destroy{
-    display:none
+.map{
+    -webkit-transition:.3s ease-out;
+    -moz-transition:.3s ease-out;
+    transition:.3s ease-out
 }
