@@ -617,9 +617,9 @@ footer{
     }
 
     .map > img{
-        height:106%;
+        height:111%;
         left:-12%;
-        top:-3%;
+        top:-5%;
         width:124%
     }
 
@@ -694,6 +694,7 @@ footer{
         bottom:5px;
         border-radius:4px;
         color:#555;
+        font-size:1.2rem;
         left:20%;
         padding:6px 20px;
         text-align:right;
@@ -720,7 +721,7 @@ header{
     transition:.4s
 }
 .map{
-    -webkit-transition:.3s ease-out;
-    -moz-transition:.3s ease-out;
-    transition:.3s ease-out
+    -webkit-transition:.4s ease-out;
+    -moz-transition:.4s ease-out;
+    transition:.4s ease-out
 }
