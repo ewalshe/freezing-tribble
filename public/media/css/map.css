@@ -324,6 +324,7 @@ header form input:focus{
     bottom:0;
     height:100vh;
     left:0;
+    overflow:hidden;
     position:absolute;
     width:100%;
     will-change:transform;
@@ -615,6 +616,13 @@ footer{
         padding:8px
     }
 
+    .map > img{
+        height:106%;
+        left:-12%;
+        top:-3%;
+        width:124%
+    }
+
     footer{
         display:none
     }
@@ -688,7 +696,8 @@ footer{
         color:#555;
         left:20%;
         padding:6px 20px;
-        width:60%
+        text-align:right;
+        width:78%
     }
 }
 
