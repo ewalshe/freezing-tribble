@@ -715,13 +715,14 @@ header{
     -moz-transition:.5s;
     transition:.5s
 }
+.map > img,
 #modal{
     -webkit-transition:.4s;
     -moz-transition:.4s;
     transition:.4s
 }
 .map{
-    -webkit-transition:.4s ease-out;
-    -moz-transition:.4s ease-out;
-    transition:.4s ease-out
+    -webkit-transition:.4s;
+    -moz-transition:.4s;
+    transition:.4s
 }

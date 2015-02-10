@@ -800,4 +800,13 @@
 
     // Add support CSS
     docEl.className = (' ' + docEl.className + ' ua-' + UA.lowercase + ' ' + ' os-' + UA.platform + ' ie-' +  UA.ie + ' ' + ((UA.touch) ? 'has-touch' : 'no-touch') + ' ').replace(' no-js ', ' js ').replace(' loading ', ' loaded ').trim();
+
+    // Mobile tweaks
+    (function () {
+        if (UA.touch) {
+            q$('#closeModal').addEventListener('touchstart', function () {
+                q$('#closeModal').click();
+            }, false);
+        }
+    } ());
 }(window, document));
