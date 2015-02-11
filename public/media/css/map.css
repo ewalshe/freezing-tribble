@@ -617,10 +617,12 @@ footer{
     }
 
     .map > img{
-        height:111%;
-        left:-12%;
-        top:-5%;
-        width:124%
+        height:100vw;
+        -ms-transform:rotate(90deg) translate(11%,14%);
+        -webkit-transform:rotate(90deg) translate(11%,14%);
+        transform:rotate(90deg) translate(11%,14%);
+        transform-origin:center center;
+        width:100vh
     }
 
     footer{
