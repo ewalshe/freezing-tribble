@@ -14,7 +14,7 @@ var port = process.env.PORT || process.env.port || 8081,
 
 // Setup static file server
 fileServer = new staticFiles.Server('./public', {
-    gzip:		false,
+    gzip:		true,
     serverInfo:	'S'
 });
 

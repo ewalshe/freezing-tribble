@@ -6,11 +6,11 @@
         overlayDelay = 0,
         markers = [],
         template,
-        data,
-        gmap,
         $docEl,
         $nav,
         $map,
+        data,
+        gmap,
         UA;
 
 
@@ -18,6 +18,14 @@
     if (!doc.querySelector || !win.JSON || !win.JSON.parse || !win.Object.keys || !win.Array.isArray) {
         alert('Sorry, your browser does not support this application.');
         return;
+    }
+
+
+    // Polyfill console
+    if (!win.console || !win.console.log) {
+        win.console = {
+            log: function (){}
+        };
     }
 
 
@@ -66,7 +74,21 @@
     $nav = q$('header > nav');
 
 
-    // Modal content template (TODO: move to <template>)
+    // Swap map based on screen width (TODO: unsuck this with <picture> or srcset)
+    (function () {
+        var width = (win.innerWidth || $docEl.clientWidth || doc.body.clientWidth),
+            img = q$('main > img'),
+            src = img.getAttribute('srcset').split(' ');
+
+        if (width > 767) {
+            img.src = src[0];
+        } else if (width > 1300) {
+            img.src = src[0];
+        }
+    } ());
+
+
+    // Modal content template
     template = q$('#modalContentTemplate').innerHTML;
 
 
@@ -154,6 +176,7 @@
             return active;
         };
 
+
         // populate modal contents
         var populate = function (markup) {
             $detail.innerHTML = markup;
@@ -161,6 +184,7 @@
 
             return modal;
         };
+
 
         // show modal
         var show = function (content) {
@@ -183,7 +207,7 @@
             doc.location.hash = '';
             active = false;
 
-            if (activeEl) {
+            if (activeEl && activeEl.focus) {
                 activeEl.focus();
             }
 
@@ -193,7 +217,7 @@
 
         // Keyboard navigation
         doc.addEventListener('keydown', function (e) {
-            if (active === true && e.keyCode === 27) {
+            if (active && e.keyCode === 27) {
                 hide();
             }
         }, true);
@@ -337,11 +361,9 @@
         });
 
         // Help data population
-        if (win.console && win.console.log) {
-            google.maps.event.addListener(gmap, 'click', function(e) {
-                console.log('Map coordinates: ' + e.latLng.lat() + ' ' + e.latLng.lng());
-            });
-        }
+        google.maps.event.addListener(gmap, 'click', function(e) {
+            console.log('Map coordinates: ' + e.latLng.lat() + ' ' + e.latLng.lng());
+        });
 
         // Add markers and populate point-of-interest menu, init routing
         addMapMarkers(data);
@@ -809,4 +831,10 @@
             }, false);
         }
     } ());
+
+    // Public API
+    win.PLACES = {
+        modal   : modal,
+        router  : router
+    };
 }(window, document));

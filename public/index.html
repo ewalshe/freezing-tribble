@@ -4,38 +4,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <link rel="stylesheet" href="media/css/map.css">
-    <title>PlacesOfInterest</title>
-    <meta name="description" content="">
+    <title>Places</title>
     <link rel="canonical" href="//freezing-tribble.herokuapp.com/">
     <link rel="apple-touch-icon" href="favicon.png">
+    <meta name="description" content="">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="PlacesOfInterest">
-    <meta name="application-name" content="PFQ.ie">
+    <meta name="apple-mobile-web-app-title" content="Places">
+    <meta name="application-name" content="Places">
     <meta name="msapplication-TileColor" content="#000000">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_IE">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="/favicon.png">
-    <meta property="fb:admins" content="">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@">
     <meta name="twitter:creator" content="@">
     <meta name="twitter:title" content="">
     <meta name="twitter:description" content="">
     <meta name="twitter:image" content="/favicon.png">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IE">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="fb:admins" content="">
 </head>
 <body role="application" class="placesOfInterest">
-
-    <div class="intro" role="presentation">
-        <img src="media/img/logo.png" alt="">
-        <h1>Places of Interest</h1>
-    </div>
 
     <nav role="navigation" class="offScreen">
         Skip to <a href="#nav">navigation</a>, <a href="#search">search</a>.
     </nav>
+
+    <div role="presentation" class="intro">
+        <img src="media/img/logo.png" alt="">
+        <h1>Places</h1>
+    </div>
 
     <header role="banner">
         <h1>Places of Interest</h1>
@@ -52,18 +52,18 @@
     </header>
 
     <main id="map" class="map" role="main">
-        <img src="media/img/map.png" alt="">
+        <img src="media/img/map_mask.png" alt="" srcset="media/img/map.png 1000w">
         <div class="googleMap"></div>
     </main>
+
+    <footer role="contentinfo">
+        <p>&copy;2015 SomeWebSite.</p>
+    </footer>
 
     <dialog id="modal" class="modal" role="dialog">
         <button id="closeModal" class="close icon-cancel-circle" title="Close this window">Exit</button>
         <article role="article"></article>
     </dialog>
-
-    <footer role="contentinfo">
-        <p>&copy;2015 SomeWebSite.</p>
-    </footer>
 
     <template id="modalContentTemplate" hidden>
         <h1>{{title}}</h1>

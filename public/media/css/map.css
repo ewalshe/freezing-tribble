@@ -346,7 +346,6 @@ header form input:focus{
     position:absolute;
     top:0;
     width:100%
-
 }
 .modalActive main{
     pointer-events:none;
@@ -522,6 +521,7 @@ footer{
         font-weight:100;
         left:5px;
         position:relative;
+        text-shadow:0 1px 1px rgba(0,0,0,.5);
         top:7px;
         -webkit-transform:scale(2,2);
         transform:scale(2,2)
@@ -571,6 +571,7 @@ footer{
         font-size:3rem;
         padding:14px;
         right:0;
+        text-shadow:0 1px 1px rgba(0,0,0,.5);
         top:-29px;
     }
     header form:hover:before{
@@ -616,15 +617,6 @@ footer{
         padding:8px
     }
 
-    .map > img{
-        height:100vw;
-        -ms-transform:rotate(90deg) translate(11%,14%);
-        -webkit-transform:rotate(90deg) translate(11%,14%);
-        transform:rotate(90deg) translate(11%,14%);
-        transform-origin:center center;
-        width:100vh
-    }
-
     footer{
         display:none
     }
@@ -644,20 +636,21 @@ footer{
         top:20px
     }
     header nav > a{
+        color:#555;
         font-size:1.4rem
     }
     header nav > a:before{
-        color:rgba(255,255,255,.5);
         font-size:1.2rem;
         left:-3px;
         position:relative
     }
     header nav ul{
+        border-radius:4px;
         max-height:50vh;
         max-width:330px;
         margin-right:-50px;
         overflow:auto;
-        padding:20px 40px 40px 40px
+        padding:10px 0 40px 40px
     }
     header nav li{
         background:rgba(0,0,0,.7);
@@ -668,9 +661,6 @@ footer{
     }
     header nav li:first-child{
         box-shadow:0 1px 1px rgba(0,0,0,.5) inset
-    }
-    header nav li:last-child{
-        border-radius:0 0 4px 4px
     }
     header form{
         display:inline-block;
@@ -717,7 +707,6 @@ header{
     -moz-transition:.5s;
     transition:.5s
 }
-.map > img,
 #modal{
     -webkit-transition:.4s;
     -moz-transition:.4s;
