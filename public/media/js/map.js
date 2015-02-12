@@ -29,7 +29,7 @@
     }
 
 
-    // Lets get to know the User Agents
+    // Lets get to know the User Agent
     UA = (function () {
         var styles = win.getComputedStyle(docEl, ''),
             pre = ([].slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1],
@@ -74,15 +74,15 @@
     $nav = q$('header > nav');
 
 
-    // Swap map based on screen width (TODO: unsuck this with <picture> or srcset)
+    // Swap map mask based on screen width (TODO: unsuck this with <picture> or srcset)
     (function () {
-        var width = (win.innerWidth || $docEl.clientWidth || doc.body.clientWidth),
+        var screenWidth = (win.innerWidth || $docEl.clientWidth || doc.body.clientWidth),
             img = q$('main > img'),
             src = img.getAttribute('data-srcset').split(' ');
 
-        if (width > 767) {
+        if (screenWidth > 767) {
             img.src = src[0];
-        } else if (width > 1300) {
+        } else if (screenWidth > 1300) {
             img.src = src[0];
         }
     } ());
@@ -200,6 +200,7 @@
 
             return modal;
         };
+
 
         // Hide modal
         var hide = function () {
