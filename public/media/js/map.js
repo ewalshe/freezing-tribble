@@ -80,6 +80,8 @@
             img = q$('main > img'),
             src = img.getAttribute('srcset').split(' ');
 
+        alert(width);
+
         if (width > 767) {
             img.src = src[0];
         } else if (width > 1300) {
