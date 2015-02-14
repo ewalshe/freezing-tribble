@@ -265,9 +265,11 @@ header nav{
     overflow:hidden;
     position:absolute
 }
+/*
 header nav:hover{
     overflow:visible
 }
+*/
 header nav > a{
     color:#fff;
     display:block;
@@ -534,25 +536,33 @@ footer{
     }
 
     header > nav > ul{
-        background:rgba(0,0,0,.9);
+        background:#000;
         box-shadow:-2px 0 2px rgba(0,0,0,.8) inset;
         display:none;
         left:0;
         height:100vh;
         overflow:scroll;
+        padding-top:60px;
         position:fixed;
         top:0;
         -webkit-overflow-scrolling:touch;
         width:200px
     }
     header > nav > ul:before{
+        background:#000;
+        box-shadow:0 9px 19px #000;
         color:#fff;
         content:'Pick a place';
         display:block;
         font-size:3rem;
         font-weight:200;
-        margin:20px 0;
-        text-align:center
+        left:0;
+        padding:20px 9px 9px;
+        position:fixed;
+        text-align:center;
+        top:0;
+        width:200px;
+        z-index:2
     }
     header > nav > ul > li{
         border-radius:0;
@@ -560,10 +570,24 @@ footer{
         padding:8px 14px;
         text-align:right
     }
-    header nav:target ul,
-    header nav:hover ul{
+
+    .navActive .map{
+        transform:translateX(200px)
+    }
+    .navActive .modal{
+        display:none
+    }
+    .navActive header{
+        z-index:1
+    }
+
+    .navActive header nav > a{
+        display:none
+    }
+    .navActive header nav ul{
         display:block
     }
+
 
     header form{
         margin-left:80px
@@ -580,7 +604,7 @@ footer{
         text-shadow:0 1px 1px rgba(0,0,0,.5);
         top:-29px;
     }
-    header form:hover:before{
+    .searchActive header form:before{
         display:none
     }
     header form input{
@@ -681,8 +705,7 @@ footer{
         color:transparent;
         width:100px
     }
-    header form:hover input,
-    header form input:focus{
+    .searchActive header input{
         background:#fff;
         color:#666;
         width:300px
@@ -719,7 +742,12 @@ header{
     transition:.4s
 }
 .map{
-    -webkit-transition:.4s;
-    -moz-transition:.4s;
-    transition:.4s
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    transition:.3s
+}
+.navActive .map{
+    -webkit-transition:.2s;
+    -moz-transition:.2s;
+    transition:.2s
 }

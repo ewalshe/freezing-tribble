@@ -1,8 +1,8 @@
 # PointsOfInterest
 
-Super simple point of interest mapping app.
+Super simple point of interest mapping app for desktop and mobile.
 
-Comes with simple node.js file flinger, but contents of /public can live anywhere.
+Comes with simple node.js file flinger, but contents of /public can live on any HTTP server.
 
 ## Demo
 
@@ -10,8 +10,11 @@ https://freezing-tribble.herokuapp.com
 
 ## Features
 
+* Fast full screen mapping
 * Responsive layout
 * Fuzzy search
+* Host anywhere
+* Easy installation
 
 ## Config
 
@@ -42,6 +45,7 @@ https://freezing-tribble.herokuapp.com
     }
 
 #### Customise map styles
+Customise the look of your map. The style wizard at http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html cannot be recommended enough.
 
     "config": {
         "map": {
@@ -61,8 +65,9 @@ https://freezing-tribble.herokuapp.com
         }
     }
 
+##### Map styling reference
+* http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
 * https://developers.google.com/maps/documentation/javascript/styling
-* http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html?utm_medium=twitter
 
 ## Installation
 
@@ -78,8 +83,13 @@ https://freezing-tribble.herokuapp.com
 * Open AWS EB console
 * Choose 'upload archive' option.
 
-## Tested in
+####Heroku
+* https://devcenter.heroku.com/articles/deploying-nodejs
 
+####Azure
+* http://azure.microsoft.com/en-us/documentation/articles/cloud-services-nodejs-develop-deploy-app/
+
+## Tested in
 * Firefox
 * Safari
 * Chrome

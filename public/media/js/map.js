@@ -194,7 +194,7 @@
                 populate(content);
             }
 
-            $docEl.className += ' modalActive';
+            $docEl.classList.add('modalActive');
             $modal.focus();
             active = true;
 
@@ -204,7 +204,7 @@
 
         // Hide modal
         var hide = function () {
-            $docEl.className = (' ' + $docEl.className + ' ').split(' modalActive ').join(' ');
+            $docEl.classList.remove('modalActive');
             doc.location.hash = '';
             active = false;
 
@@ -352,7 +352,7 @@
             navigationControl       : false,
             zoomControl             : false,
             scaleControl            : true,
-            streetViewControl       : true,
+            streetViewControl       : false,
             streetViewControlOptions: {
                 position: google.maps.ControlPosition.LEFT_CENTER
             },
@@ -380,9 +380,10 @@
         setTimeout(function () {
             var intro = q$('.intro');
 
-            intro.className += ' hide';
+            intro.classList.add('hide');
+
             intro.addEventListener('transitionend', function () {
-                intro.className += ' destroy';
+                intro.classList.add('destroy');
             }, false);
         }, 2999);
 
@@ -405,6 +406,8 @@
 
         marker = parseInt(target.getAttribute('data-index'), 10);
         showMarkerDetail(markers[marker]);
+
+        $docEl.classList.remove('navActive');
     }, true);
 
 
@@ -589,6 +592,8 @@
                     while (target.tagName != 'LI') {
                         target = target.parentNode;
                     }
+
+                    el.blur();
 
                     showMarkerDetail(markers[parseInt(target.getAttribute('data-index'), 10)]);
                 }, true);
@@ -824,12 +829,84 @@
     // Add support CSS
     docEl.className = (' ' + docEl.className + ' ua-' + UA.lowercase + ' ' + ' os-' + UA.platform + ' ie-' +  UA.ie + ' ' + ((UA.touch) ? 'has-touch' : 'no-touch') + ' ').replace(' no-js ', ' js ').replace(' loading ', ' loaded ').trim();
 
+
+    // Handle NAV and SEARCH
+    (function () {
+        var nav = q$('header nav'),
+            navToggle = q$('header nav > a'),
+            searchForm = q$('header .searchForm'),
+            searchInput = q$('input[type=search]', searchForm);
+
+
+        // Show search
+        searchForm.addEventListener('mouseenter', function () {
+            docEl.classList.add('searchActive');
+            searchInput.focus();
+        });
+
+        //
+        searchInput.addEventListener('blur', function () {
+            docEl.classList.remove('searchActive');
+        });
+
+
+        // Toggle menu
+        navToggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            docEl.classList.add('navActive');
+        });
+
+
+        // Hide menu
+        navToggle.addEventListener('mouseleave', function (e) {
+        //    docEl.classList.remove('navActive');
+        });
+
+        q$('#map').addEventListener('mousedown', function () {
+            if (docEl.classList.contains('navActive')) {
+                docEl.classList.remove('navActive');
+            }
+        });
+
+    }());
+
     // Mobile tweaks
     (function () {
+        var close,
+            navToggle,
+            search;
+
         if (UA.touch) {
-            q$('#closeModal').addEventListener('touchstart', function () {
+            close = q$('#closeModal');
+            navToggle = q$('header nav > a');
+            search = q$('header > form input[type=search]');
+
+
+            // Quickly close modal
+            close.addEventListener('touchstart', function () {
                 q$('#closeModal').click();
             }, false);
+
+
+            // Toggle menu
+            nav.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                docEl.classList.add('navActive');
+            });
+
+
+            // Show / hide search
+            search.addEventListener('focus', function () {
+                search.parentElement.classList.add('active');
+            });
+
+            search.addEventListener('blur', function () {
+                search.parentElement.classList.remove('active');
+            });
         }
     } ());
 
