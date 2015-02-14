@@ -9,6 +9,9 @@
     "node":					"*"
   },
   "dependencies": {
-    "node-static":			"*"
+    "clean-css":            "*",
+    "html-minifier":        "*",
+    "node-static":			"*",
+    "uglify-js":            "*"
   }
 }

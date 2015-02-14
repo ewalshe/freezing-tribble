@@ -518,13 +518,19 @@ footer{
     header nav > a:before{
         color:#fff;
         font-size:3rem;
-        font-weight:100;
+        font-weight:lighter;
         left:5px;
         position:relative;
         text-shadow:0 1px 1px rgba(0,0,0,.5);
         top:7px;
         -webkit-transform:scale(2,2);
         transform:scale(2,2)
+    }
+
+    .ua-ms.has-touch header nav > a:before{
+        font-size:2rem;
+        left:2px;
+        top:12px
     }
 
     header > nav > ul{
