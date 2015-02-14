@@ -1,24 +1,24 @@
-# PointsOfInterest
+#places
 
 Super simple point of interest mapping app for desktop and mobile.
 
-Comes with simple node.js file flinger, but contents of /public can live on any HTTP server.
+Comes with simple node.js file flinger, but the contents of /public can live on any HTTP server.
 
-## Demo
+##Demo
 
 https://freezing-tribble.herokuapp.com
 
-## Features
+##Features
 
 * Fast full screen mapping
 * Responsive layout
 * Fuzzy search
 * Host anywhere
-* Easy installation
+* Easy installation and setup
 
-## Config
+##Config
 
-#### Basic config file
+####Basic configuration
 
     {
         "config": {
@@ -43,6 +43,28 @@ https://freezing-tribble.herokuapp.com
             }
         ]
     }
+
+Basic configuration covers where the map initial defaults to, the zoom level, and how long it takes to display an information modal.
+
+* config.showOverlayDelay:  delay between choose a marker from search or navigation, and triggering information modal. Facilitates Google maps panning for spatial recognition
+* config.proximity:         unimplimented. Hints to markers in proximity with present marker in overlay
+* config.map.lat:           Latitude for initial map state
+* config.map.lng:           Longitude for initial map state
+* config.map.zoom:          Zoom level for initial map state
+
+Each marker needs some information to be useful
+
+* title:    a title for
+* summary:  a short hint or teaser
+* lat:      latitude for this marker    (clicking anywhere on the map with the console open will share this detail)
+* lng:      longitude for this marker   (clicking anywhere on the map with the console open will share this detail)
+* order:    unimplimented. A hint to the ranking of this marker (1 = most important)
+* icon:     filepath to icon displayed for this marker
+* image:    filepath to 'hero' image displayed in information modal for this marker
+* detail:   HTML markup describing this marker
+
+Configuration files created with the setup wizard will also contain a markdown key.
+
 
 #### Customise map styles
 Customise the look of your map. The style wizard at http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html cannot be recommended enough.
@@ -69,7 +91,7 @@ Customise the look of your map. The style wizard at http://gmaps-samples-v3.goog
 * http://gmaps-samples-v3.googlecode.com/svn/trunk/styledmaps/wizard/index.html
 * https://developers.google.com/maps/documentation/javascript/styling
 
-## Installation
+##Installation
 
 ####Localhost
 * Ensure node.js is installed (http://nodejs.org)
