@@ -138,6 +138,16 @@
     };
 
 
+    // Find nearest parent of tag type
+    var nearestParent = function (el, tagName) {
+        while (el.tagName != tagName) {
+            el = el.parentNode;
+        }
+
+        return el;
+    };
+
+
     // Strip markup from a string
     var stripHTML = function (html) {
         var tempEl = doc.createElement('i'),
@@ -395,20 +405,26 @@
     };
 
 
-    // EVENT: Handle navigation clicks
-    $nav.addEventListener('click', function (e) {
+    // Handle navigation clicks
+    var navClickHandler = function (e) {
         var target = e.target,
             marker;
+
+        e.stopImmediatePropagation();
 
         if (target.tagName != 'LI') {
             return;
         }
 
+        $docEl.classList.remove('navActive');
+
         marker = parseInt(target.getAttribute('data-index'), 10);
         showMarkerDetail(markers[marker]);
+    };
 
-        $docEl.classList.remove('navActive');
-    }, true);
+    // EVENT: Handle navigation clicks
+    $nav.addEventListener('mousedown', navClickHandler);
+    $nav.addEventListener('click', navClickHandler);
 
 
     // EVENT: Handle point of interest hover
@@ -587,8 +603,6 @@
                 suggestionEl.addEventListener('click', function (evt) {
                     var target = evt.target;
 
-                    console.log(target.tagName);
-
                     while (target.tagName != 'LI') {
                         target = target.parentNode;
                     }
@@ -615,6 +629,10 @@
                 }, true);
 
                 el.parentNode.appendChild(suggestionEl);
+            }
+
+            if (UA.touch) {
+                results.reverse();
             }
 
             results.forEach(function (result, index) {
@@ -697,10 +715,12 @@
 
             // Choose active suggestion OR first suggestion
             if (keyCode === 27) {
-                selectedLink = suggestionEl.querySelectorAll('.active')[0] || q$('li', suggestionEl);
+                if (suggestionEl) {
+                    selectedLink = (suggestionEl.querySelectorAll('.active')[0] || q$('li', suggestionEl) || null);
 
-                if (selectedLink) {
-                    selectedLink.click();
+                    if (selectedLink) {
+                        selectedLink.click();
+                    }
                 }
                 return;
             }
@@ -841,7 +861,10 @@
         // Show search
         searchForm.addEventListener('mouseenter', function () {
             docEl.classList.add('searchActive');
-            searchInput.focus();
+
+            if (UA.touch) {
+                return;
+            }
         });
 
         //
@@ -859,11 +882,7 @@
         });
 
 
-        // Hide menu
-        navToggle.addEventListener('mouseleave', function (e) {
-        //    docEl.classList.remove('navActive');
-        });
-
+        // Close menu with map
         q$('#map').addEventListener('mousedown', function () {
             if (docEl.classList.contains('navActive')) {
                 docEl.classList.remove('navActive');
@@ -875,13 +894,11 @@
     // Mobile tweaks
     (function () {
         var close,
-            navToggle,
-            search;
+            navToggle;
 
         if (UA.touch) {
             close = q$('#closeModal');
             navToggle = q$('header nav > a');
-            search = q$('header > form input[type=search]');
 
 
             // Quickly close modal
@@ -891,22 +908,13 @@
 
 
             // Toggle menu
-            nav.addEventListener('click', function (e) {
+            navToggle.addEventListener('touchstart', function (e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
                 docEl.classList.add('navActive');
-            });
-
-
-            // Show / hide search
-            search.addEventListener('focus', function () {
-                search.parentElement.classList.add('active');
-            });
-
-            search.addEventListener('blur', function () {
-                search.parentElement.classList.remove('active');
-            });
+                navToggle.click();
+            }, false);
         }
     } ());
 

@@ -20,6 +20,8 @@ https://freezing-tribble.herokuapp.com
 
 ####Basic configuration
 
+Setup is split between the default state of the map, and information about each marker.
+
     {
         "config": {
             "showOverlayDelay"  : 400,
@@ -32,14 +34,14 @@ https://freezing-tribble.herokuapp.com
         },
         "markers": [
             {
-                "title"   : "First place of interest",
-                "summary" : "A summary",
-                "lat"     : 52.3755991766591,
-                "lng"     : -7.789306640625,
-                "order"   : 3,
-                "icon"    : "media/img/themes/red/flag.png",
-                "image"   : "media/img/info.png",
-                "detail"  : "<p>Markup for first item</p>"
+                "title"         : "First place of interest",
+                "summary"       : "A summary",
+                "lat"           : 52.3755991766591,
+                "lng"           : -7.789306640625,
+                "order"         : 3,
+                "icon"          : "media/img/themes/red/flag.png",
+                "image"         : "media/img/info.png",
+                "detail"        : "<p>Markup for first item</p>"
             }
         ]
     }
@@ -61,7 +63,7 @@ Each marker needs some information to be useful
 * order:    unimplimented. A hint to the ranking of this marker (1 = most important)
 * icon:     filepath to icon displayed for this marker
 * image:    filepath to 'hero' image displayed in information modal for this marker
-* detail:   HTML markup describing this marker
+* detail:   HTML fragment describing this marker
 
 Configuration files created with the setup wizard will also contain a markdown key.
 
