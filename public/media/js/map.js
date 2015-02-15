@@ -787,12 +787,6 @@
         };
 
 
-        // Add an item to history
-        var push = function (obj) {
-            win.history.pushState(obj, obj.title, obj.URI);
-        };
-
-
         // Create routes, set initial state
         var init = function (data, callback) {
             var currentURI = doc.location.hash;
@@ -827,14 +821,12 @@
                 modal.hide();
             }
         };
-        win.addEventListener('popstate', hashChange);
         win.addEventListener('hashchange', hashChange)
 
 
         return {
             init    : init,
-            trigger : trigger,
-            push    : push
+            trigger : trigger
         };
     } ();
 
