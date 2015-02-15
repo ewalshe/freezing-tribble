@@ -4,11 +4,11 @@
   "scripts": {
     "start":				"node server"
   },
-  "version":			    "0.0.0-1",
+  "version":			    "0.1.1",
   "engines": {
-    "node":					"*"
+    "node":					">= 0.12.0"
   },
   "dependencies": {
-    "simpl3s":              "*"
+    "simpl3s":              ">= 0.2.7"
   }
 }
