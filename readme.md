@@ -1,6 +1,6 @@
 #places
 
-Super simple point of interest mapping app for desktop and mobile.
+###Super simple point of interest mapping app for desktop and mobile.
 
 Comes with simple node.js file flinger, but the contents of /public can live on any HTTP server.
 
@@ -20,7 +20,7 @@ https://freezing-tribble.herokuapp.com
 
 ####Basic configuration
 
-Setup is split between the default state of the map, and information about each marker.
+Setup is split between the default state of the map, and information about each marker (or **place**).
 
     {
         "config": {
@@ -48,22 +48,22 @@ Setup is split between the default state of the map, and information about each 
 
 Basic configuration covers where the map initial defaults to, the zoom level, and how long it takes to display an information modal.
 
-* config.showOverlayDelay:  delay between choose a marker from search or navigation, and triggering information modal. Facilitates Google maps panning for spatial recognition
-* config.proximity:         unimplimented. Hints to markers in proximity with present marker in overlay
-* config.map.lat:           Latitude for initial map state
-* config.map.lng:           Longitude for initial map state
-* config.map.zoom:          Zoom level for initial map state
+* **config.showOverlayDelay**:  delay between choose a marker from search or navigation, and triggering information modal. Facilitates Google maps panning for spatial recognition
+* **config.proximity**:         unimplimented. Hints to markers in proximity with present marker in overlay
+* **config.map.lat**:           Latitude for initial map state
+* **config.map.lng**:           Longitude for initial map state
+* **config.map.zoom**:          Zoom level for initial map state
 
 Each marker needs some information to be useful
 
-* title:    a title for
-* summary:  a short hint or teaser
-* lat:      latitude for this marker    (clicking anywhere on the map with the console open will share this detail)
-* lng:      longitude for this marker   (clicking anywhere on the map with the console open will share this detail)
-* order:    unimplimented. A hint to the ranking of this marker (1 = most important)
-* icon:     filepath to icon displayed for this marker
-* image:    filepath to 'hero' image displayed in information modal for this marker
-* detail:   HTML fragment describing this marker
+* **title**:    a title for
+* **summary**:  a short hint or teaser
+* **lat**:      latitude for this marker    (clicking anywhere on the map with the console open will share this detail)
+* **lng**:      longitude for this marker   (clicking anywhere on the map with the console open will share this detail)
+* **order**:    unimplimented. A hint to the ranking of this marker (1 = most important)
+* **icon**:     filepath to icon displayed for this marker
+* **image**:    filepath to 'hero' image displayed in information modal for this marker
+* **detail**:   HTML fragment describing this marker
 
 Configuration files created with the setup wizard will also contain a markdown key.
 
@@ -100,7 +100,7 @@ Customise the look of your map. The style wizard at http://gmaps-samples-v3.goog
 * CD to the freezing-tribble directory
 * sudo npm install
 * sudo npm update
-* node server.js
+* node simpl3s.js
 
 ####AWS EB
 * Create a zip archive containing this app (ensure package.json is in the root)
@@ -108,6 +108,11 @@ Customise the look of your map. The style wizard at http://gmaps-samples-v3.goog
 * Choose 'upload archive' option.
 
 ####Heroku
+The most convenient approach is to configure your heroku app to listen for commits to github and automatically deploy from a designated branch.
+#####Manually from git repo
+* ~ heroku git:remote -a heroku-app-name
+* ~ git push heroku master
+#####Alternatives
 * https://devcenter.heroku.com/articles/deploying-nodejs
 
 ####Azure

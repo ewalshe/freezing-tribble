@@ -1,6 +1,6 @@
 {
-  "name": 			        "Simples",
-  "description": 		    "Simple Node.js based file flinger.",
+  "name": 			        "Places",
+  "description": 		    "Point of interest mapping explorer",
   "scripts": {
     "start":				"node server"
   },
@@ -9,9 +9,6 @@
     "node":					"*"
   },
   "dependencies": {
-    "clean-css":            "*",
-    "html-minifier":        "*",
-    "node-static":			"*",
-    "uglify-js":            "*"
+    "simpl3s":              "*"
   }
 }
