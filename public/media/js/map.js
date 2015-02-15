@@ -50,7 +50,7 @@
             ie          : (ie || false),
             js          : pre[0].toUpperCase() + pre.substr(1),
             platform    : nv.platform.toLowerCase(),
-            touch       : ('ontouchstart' in docEl || 'onmsgesturechange' in win) ? true : false
+            touch       : !!(('ontouchstart' in docEl || 'onmsgesturechange' in win))
         };
     }());
 
@@ -138,6 +138,14 @@
     };
 
 
+    // Event helper
+    var on = function (el, events, func, bubble) {
+        events.split(' ').forEach(function (evt) {
+            el.addEventListener(evt, func, bubble);
+        });
+    };
+
+
     // Find nearest parent of tag type
     var nearestParent = function (el, tagName) {
         while (el.tagName != tagName) {
@@ -180,6 +188,7 @@
             $detail     = q$('article', $modal),
             active      = false,
             activeEl;
+
 
         // Is modal visible to user?
         var isActive = function () {
@@ -601,11 +610,7 @@
 
                 // Handle click evts
                 suggestionEl.addEventListener('click', function (evt) {
-                    var target = evt.target;
-
-                    while (target.tagName != 'LI') {
-                        target = target.parentNode;
-                    }
+                    var target = nearestParent(evt.target, 'LI');
 
                     el.blur();
 
@@ -614,12 +619,8 @@
 
                 // TMP TODO - make generic
                 suggestionEl.addEventListener('mouseover', function (evt) {
-                    var target = evt.target,
+                    var target = nearestParent(evt.target, 'LI'),
                         index;
-
-                    while (target.tagName != 'LI') {
-                        target = target.parentNode;
-                    }
 
                     index = parseInt(target.getAttribute('data-index'), 10);
 
