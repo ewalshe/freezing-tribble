@@ -5,4 +5,4 @@
 *   About:  Simple point of interest mapping app
 *
 ****************************************************/
-require('simpl3s').init();
+require('simpl3s').server();

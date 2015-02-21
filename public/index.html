@@ -17,18 +17,22 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@">
     <meta name="twitter:creator" content="@">
-    <meta name="twitter:title" content="">
-    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Places">
+    <meta name="twitter:description" content="Places of interest">
     <meta name="twitter:image" content="favicon.png">
-    <meta property="og:title" content="">
+    <meta property="og:title" content="Places">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_IE">
-    <meta property="og:url" content="">
+    <meta property="og:url" content="//freezing-tribble.herokuapp.com/">
     <meta property="og:image" content="favicon.png">
     <meta property="fb:admins" content="">
 </head>
-<body role="application" class="placesOfInterest">
-    <!-- DEP TEST -->
+<body role="application" class="places">
+
+    <noscript>
+        <h2><strong>Sorry! </strong>This application requires javascript to be enabled.</h2>
+    </noscript>
+
     <nav role="navigation" class="offScreen">
         Skip to <a href="#nav">navigation</a>, <a href="#search">search</a>.
     </nav>
@@ -63,6 +67,7 @@
 
     <dialog id="modal" class="modal" role="dialog">
         <button id="closeModal" class="close icon-cancel-circle" title="Close this window">Exit</button>
+        <h1 class="has-{{hero}}" data-hero="{{image}}">{{title}}</h1>
         <article role="article"></article>
     </dialog>
 
@@ -72,7 +77,7 @@
     </template>
 
     <template id="navigationTemplate" hidden>
-        <li data-menu-item="{{itemIndex}}" data-index="{{index}}">{{title}}</li>
+        <li class="{{itemClass}}" data-menu-item="{{itemIndex}}" data-index="{{index}}">{{title}}</li>
     </template>
 
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
