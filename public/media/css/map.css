@@ -478,7 +478,6 @@ header{
     bottom:0;
     color:#fff;
     font-size:4rem;
-    font-weight:600;
     line-height:4rem;
     margin:0;
     padding:0 40px 20px;
@@ -487,6 +486,9 @@ header{
     text-shadow:0 1px 4px #000;
     -webkit-transform:translate3d(1,1,1);
     z-index:3
+}
+.ua-webkit .modal .has-img .placeHeader h1{
+    font-weight:300
 }
 .modal .has-img .placeHeader img{
     left:-2%;
