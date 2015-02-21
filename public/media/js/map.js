@@ -227,7 +227,7 @@
             }
 
             $docEl.classList.add('modalActive');
-            $modal.focus();
+            $detail.focus();
             active = true;
 
             return modal;
@@ -242,6 +242,8 @@
 
             if (activeEl && activeEl.focus) {
                 activeEl.focus();
+            } else {
+                $detail.blur();
             }
 
             return modal;
