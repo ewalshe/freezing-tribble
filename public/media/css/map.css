@@ -377,7 +377,6 @@ header{
     height:90%;
     left:6%;
     overflow:hidden;
-    padding:40px;
     top:5%;
     width:90%;
     will-change:opacity,transform;
@@ -426,58 +425,70 @@ header{
     position:absolute
 }
 .modal > article{
-    height:97%;
-    overflow:auto;
-    position:static;
-    text-align:justify;
-    -webkit-overflow-scrolling:touch
+    height:100%
 }
-.modal .heroImage{
+.modal .modalContent{
+    height:100%
+}
+.modal .modalContent .placeHeader,
+.modal .modalContent .placeFooter{
     display:none
 }
-.modal .has-img{
-    padding-top:230px;
+.modal .modalContent .placeContent{
+    border-bottom:30px #fff solid;
+    height:100%;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:20px 40px 0;
+    width:100%
+}
+.modal .modalContent.has-img .placeContent{
+    height:70%
 }
 .modal .has-img .placeHeader{
-    height:300px;
+    background:transparent none bottom center fixed no-repeat;
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    background-size:cover;
+    display:block;
+    height:30%;
     left:0;
     overflow:hidden;
-    position:absolute;
-    top:-40px;
+    position:relative;
     width:100%;
     z-index:2
 }
 .modal .has-img .placeHeader:before{
     background-image:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,0) 40%, rgba(0,0,0,.6) 100%);
+    bottom:0;
     content:'';
+    display:block;
     height:100%;
     left:0;
     position:absolute;
     width:100%;
     z-index:2
 }
-.modal .has-img .placeHeader .heroImage{
-    display:block;
-    min-height:100%;
-    min-width:100%;
-    position:absolute;
-    z-index:1
-}
-.modal .placeHeader h1{
-    font-size:3rem;
-    margin-bottom:18px
-}
 .modal .has-img .placeHeader h1{
     bottom:0;
     color:#fff;
+    font-size:4rem;
     font-weight:300;
     line-height:3rem;
     margin:0;
-    padding:0 40px 40px;
+    padding:0 40px 30px;
     position:absolute;
     text-align:left;
-    text-shadow:0 0 2px #000;
+    text-shadow:0 1px 3px #000;
     z-index:3
+}
+.modal h1.placeContentTitle{
+    font-size:3.6rem;
+    line-height:3rem;
+    margin:0 0 9px 0
+}
+.modal .has-img h1.placeContentTitle{
+    display:none
 }
 .modal h2{
     font-size:2.4rem;

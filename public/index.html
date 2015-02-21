@@ -71,14 +71,16 @@
     </dialog>
 
     <template id="modalContentTemplate" hidden>
-        <div class="has-{{hasTools}} has-{{hasImg}}">
-            <div class="placeHeader">
-                <img class="heroImage" src="{{image}}" alt="{{title}}">
+        <div class="modalContent has-{{hasTools}} has-{{hasImg}}">
+            <div class="placeHeader" style="background-image:url({{image}})">
                 <h1>{{title}}</h1>
             </div>
-            {{detail}}
-            <div class="placesFooter">
-            </divr>
+            <div class="placeContent">
+                <h1 class="placeContentTitle">{{title}}</h1>
+                {{detail}}
+            </div>
+            <div class="placeFooter">
+            </div>
         </div>
     </template>
 
