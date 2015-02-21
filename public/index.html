@@ -67,13 +67,19 @@
 
     <dialog id="modal" class="modal" role="dialog">
         <button id="closeModal" class="close icon-cancel-circle" title="Close this window">Exit</button>
-        <h1 class="has-{{hero}}" data-hero="{{image}}">{{title}}</h1>
         <article role="article"></article>
     </dialog>
 
     <template id="modalContentTemplate" hidden>
-        <h1>{{title}}</h1>
-        {{detail}}
+        <div class="has-{{hasTools}} has-{{hasImg}}">
+            <div class="placeHeader">
+                <img class="heroImage" src="{{image}}" alt="{{title}}">
+                <h1>{{title}}</h1>
+            </div>
+            {{detail}}
+            <div class="placesFooter">
+            </divr>
+        </div>
     </template>
 
     <template id="navigationTemplate" hidden>

@@ -376,6 +376,7 @@ header{
     box-shadow:0 2px 66px rgba(0,0,0,.7);
     height:90%;
     left:6%;
+    overflow:hidden;
     padding:40px;
     top:5%;
     width:90%;
@@ -412,7 +413,8 @@ header{
     right:-5px;
     text-shadow:none;
     top:0;
-    width:40px
+    width:40px;
+    z-index:3
 }
 .modal > .close:active,
 .modal > .close:focus{
@@ -426,14 +428,56 @@ header{
 .modal > article{
     height:97%;
     overflow:auto;
+    position:static;
     text-align:justify;
     -webkit-overflow-scrolling:touch
 }
-.modal h1{
+.modal .heroImage{
+    display:none
+}
+.modal .has-img{
+    padding-top:230px;
+}
+.modal .has-img .placeHeader{
+    height:300px;
+    left:0;
+    overflow:hidden;
+    position:absolute;
+    top:-40px;
+    width:100%;
+    z-index:2
+}
+.modal .has-img .placeHeader:before{
+    background-image:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,0) 40%, rgba(0,0,0,.6) 100%);
+    content:'';
+    height:100%;
+    left:0;
+    position:absolute;
+    width:100%;
+    z-index:2
+}
+.modal .has-img .placeHeader .heroImage{
+    display:block;
+    min-height:100%;
+    min-width:100%;
+    position:absolute;
+    z-index:1
+}
+.modal .placeHeader h1{
     font-size:3rem;
+    margin-bottom:18px
+}
+.modal .has-img .placeHeader h1{
+    bottom:0;
+    color:#fff;
+    font-weight:300;
     line-height:3rem;
-    margin:0 0 18px 0;
-    text-align:left
+    margin:0;
+    padding:0 40px 40px;
+    position:absolute;
+    text-align:left;
+    text-shadow:0 0 2px #000;
+    z-index:3
 }
 .modal h2{
     font-size:2.4rem;

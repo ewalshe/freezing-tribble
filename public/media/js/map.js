@@ -171,11 +171,24 @@
 
     // Apply template to model
     var applyTemplate = function (model, template) {
-        var tmpl = template || '';
+        var tmpl = template || '',
+            unUsedKeyStart,
+            unUsedKeyEnd,
+            unUsedKey;
 
+        // Add data
         Object.keys(model).forEach(function (key) {
             tmpl = tmpl.split('{{' + key + '}}').join(model[key]);
         });
+
+        // Remove redundant hotpoints
+        while (tmpl.indexOf('{{') > -1) {
+            var unUsedKeyStart = tmpl.indexOf('{{'),
+                unUsedKeyEnd = tmpl.indexOf('}}'),
+                unUsedKey = tmpl.substr(unUsedKeyStart, (unUsedKeyEnd - (unUsedKeyStart - 2)));
+
+            tmpl = tmpl.split(unUsedKey).join('');
+        }
 
         return tmpl;
     };
@@ -259,8 +272,16 @@
 
     // Show modal with point of interest details
     var showMarkerDetail = function (marker) {
-        modal.show(applyTemplate(marker, template));
+        if (marker.image && marker.image.length > 0) {
+            marker.hasImg = 'img';
+        }
 
+        // TODO: flesh this out
+        if (marker.excuseToShowTools) {
+            marker.hasTools = 'tools';
+        }
+
+        modal.show(applyTemplate(marker, template));
         doc.location.hash = marker.uri;
     };
 
@@ -373,7 +394,7 @@
             scaleControl            : true,
             streetViewControl       : false,
             streetViewControlOptions: {
-                position: google.maps.ControlPosition.LEFT_CENTER
+                position            : google.maps.ControlPosition.LEFT_CENTER
             },
             overviewMapControl      : true,
             styles                  : map.style || [],
@@ -388,12 +409,12 @@
         // Add markers and populate point-of-interest menu, init routing
         addMapMarkers(data);
         buildNav(data);
+
         router.init(data, function (obj) {
             if (obj) {
                 showMarkerDetail(obj);
             }
         });
-
 
         // Kill intro, show UI
         setTimeout(function () {
