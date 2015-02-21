@@ -72,8 +72,9 @@
 
     <template id="modalContentTemplate" hidden>
         <div class="modalContent has-{{hasTools}} has-{{hasImg}}">
-            <div class="placeHeader" style="background-image:url({{image}})">
+            <div class="placeHeader" zstyle="background-image:url({{image}})">
                 <h1>{{title}}</h1>
+                <img src="{{image}}" alt="">
             </div>
             <div class="placeContent">
                 <h1 class="placeContentTitle">{{title}}</h1>
