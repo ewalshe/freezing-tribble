@@ -473,8 +473,8 @@ header{
 .modal .has-img .placeHeader h1{
     bottom:0;
     color:#fff;
-    font-size:4rem;
-    line-height:4rem;
+    font-size:3.2rem;
+    line-height:3.2rem;
     margin:0;
     padding:0 40px 20px;
     position:absolute;
@@ -855,13 +855,13 @@ footer{
     }
 
     .searchSuggest{
-        background:#fff;
+        background:rgb(245,245,245);
         top:34px
     }
     .searchSuggest li{
         border-radius:0!important;
         color:#4183c4;
-        font-size:1.4rem;
+        font-size:1.5rem;
         padding:6px 12px
     }
     .searchSuggest li:last-child{
@@ -876,6 +876,10 @@ footer{
     }
     .modal .has-img .placeHeader img{
         display:none
+    }
+    .modal .has-img .placeHeader h1{
+        font-size:4rem;
+        line-height:4rem
     }
 
     footer{
