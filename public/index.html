@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <meta name="description" content="Places of interest">
+    <meta name="HandheldFriendly" content="True">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
     <meta name="apple-mobile-web-app-title" content="Places">
@@ -72,7 +73,7 @@
 
     <template id="modalContentTemplate" hidden>
         <div class="modalContent has-{{hasTools}} has-{{hasImg}}">
-            <div class="placeHeader" zstyle="background-image:url({{image}})">
+            <div class="placeHeader">
                 <h1>{{title}}</h1>
                 <img src="{{image}}" alt="">
             </div>
