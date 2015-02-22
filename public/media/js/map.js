@@ -171,7 +171,7 @@
         var tempEl = doc.createElement('i'),
             txt;
 
-        tempEl.innerHTML = html;
+        tempEl.innerHTML = html.split('>').join('> ');
         txt = (tempEl.textContent || tempEl.innerText || '');
         tempEl = null;
 
@@ -557,6 +557,24 @@
         };
 
 
+        // Util: boil a string down into keywords
+        var keyWords = function (txt) {
+            if (!txt) {
+                return '';
+            }
+
+            return txt
+                .split(/\s+/)
+                .filter(function(v) {
+                    return v.length > 2;
+                })
+                .filter(function(v, i, a) {
+                    return a.lastIndexOf(v) === i;
+                })
+                .join(' ');
+        };
+
+
         // Build case insensitive bolded markup
         var caseInsensitiveBold = function (word, trm) {
             var regex = new RegExp('(' + word + ')', 'gi');
@@ -587,6 +605,9 @@
                     str += ' ' + stripHTML(item).toLowerCase();
                 }
             });
+
+            str = str.replace(/\W/g, ' ');
+            str = keyWords(str).trim();
 
             searchObj.str = str;                    // Keep original string
             searchObj.words = str.split(' ');       // TODO: kill stop words
