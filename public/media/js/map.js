@@ -139,10 +139,20 @@
 
 
     // Event helper
-    var on = function (el, events, func, bubble) {
-        events.split(' ').forEach(function (evt) {
-            el.addEventListener(evt, func, bubble);
-        });
+    var on = function (els, events, func, bubble) {
+        var evts = events.split(' ');
+
+        if (Array.isArray(els)) {
+            els.forEach(function (el) {
+                evts.forEach(function (evt) {
+                    el.addEventListener(evt, func, bubble);
+                });
+            })
+        } else {
+            evts.forEach(function (evt) {
+                el.addEventListener(evt, func, bubble);
+            });
+        }
     };
 
 
@@ -909,12 +919,20 @@
 
     // Mobile tweaks
     (function () {
-        var close,
-            navToggle;
+        var navToggle,
+            search,
+            close;
 
         if (UA.touch) {
             close = q$('#closeModal');
             navToggle = q$('header nav > a');
+            search = q$('header > form');
+
+
+            // Large touch area for search
+            search.addEventListener('touchstart', function () {
+                //q$('#search', search).focus();
+            });
 
 
             // Quickly close modal

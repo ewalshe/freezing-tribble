@@ -450,10 +450,6 @@ header{
     height:70%
 }
 .modal .has-img .placeHeader{
-    background:transparent center center fixed no-repeat;
-    -webkit-background-size:cover;
-    -moz-background-size:cover;
-    background-size:cover;
     display:block;
     height:30%;
     left:0;
@@ -739,11 +735,25 @@ footer{
         z-index:a
     }
 
+    /* Animation */
     footer,
     header{
         -webkit-transition:.6s;
         -moz-transition:.6s;
         transition:.6s
+    }
+    .navActive header form,
+    .navActive header nav > a,
+    .navActive .map{
+        -webkit-transition:.17s ease-in;
+        -moz-transition:.17s ease-in;
+        transition:.17s ease-in
+    }
+    .navActive header form,
+    .navActive header nav > a{
+        -webkit-transition:.5s;
+        -moz-transition:.5s;
+        transition:.5s
     }
 }
 
@@ -760,6 +770,7 @@ footer{
         height:100vh;
         left:auto;
         opacity:1;
+        overflow:hidden;
         padding:0;
         position:fixed;
         text-align:left;
@@ -813,8 +824,9 @@ footer{
     }
     header nav li{
         color:#4183c4;
+        font-size:1.4rem;
         overflow:hidden;
-        padding:6px 12px;
+        padding:7px 12px;
         text-overflow:ellipsis;
         white-space:nowrap
     }
@@ -856,6 +868,16 @@ footer{
         border-bottom:1px #e2e2e2 solid
     }
 
+    .modal .has-img .placeHeader{
+        background:transparent center center fixed no-repeat;
+        -webkit-background-size:cover;
+        -moz-background-size:cover;
+        background-size:cover
+    }
+    .modal .has-img .placeHeader img{
+        display:none
+    }
+
     footer{
         bottom:5px;
         border-radius:4px;
@@ -883,25 +905,12 @@ footer{
     transition:.5s
 }
 #modal{
-    -webkit-transition:.32s;
-    -moz-transition:.32s;
-    transition:.32s
+    -webkit-transition:.325s;
+    -moz-transition:.325s;
+    transition:.325s
 }
 .map{
     -webkit-transition:.3s ease-out;
     -moz-transition:.3s ease-out;
     transition:.3s ease-out
-}
-.navActive header form,
-.navActive header nav > a,
-.navActive .map{
-    -webkit-transition:.17s ease-in;
-    -moz-transition:.17s ease-in;
-    transition:.17s ease-in
-}
-.navActive header form,
-.navActive header nav > a{
-    -webkit-transition:.5s;
-    -moz-transition:.5s;
-    transition:.5s
 }
