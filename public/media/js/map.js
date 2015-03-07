@@ -150,7 +150,7 @@
             })
         } else {
             evts.forEach(function (evt) {
-                el.addEventListener(evt, func, bubble);
+                els.addEventListener(evt, func, bubble);
             });
         }
     };

@@ -43,9 +43,6 @@ body{
     line-height:1.5em;
     overflow:hidden
 }
-.no-touch.ua-webkit body *{
-    font-weight:300
-}
 input{
     outline:none
 }
@@ -291,6 +288,9 @@ header nav li:hover{
     background:#56a1e4;
     color:#fff
 }
+.ua-webkit.no-touch header nav li{
+    font-family:Helvetica,Arial,sans-serif
+}
 
 header form{
     position:relative;
@@ -486,7 +486,7 @@ header{
     text-shadow:0 1px 4px #000;
     z-index:3
 }
-.ua-webkit .modal .has-img .placeHeader h1{
+.ua-webkit.no-touch .modal .has-img .placeHeader h1{
     font-weight:300
 }
 .modal .has-img .placeHeader img{
@@ -514,6 +514,9 @@ header{
     font-size:1.4rem;
     line-height:1.6em;
     margin:0 0 16px
+}
+.ua-webkit .modal p{
+    font-family:Helvetica,Arial,sans-serif
 }
 .modal img{
     height:auto;
@@ -875,12 +878,10 @@ footer{
         border-bottom:1px #e2e2e2 solid
     }
 
-    /*
     .modal{
         left:20%;
         width:60%
     }
-    */
     .modal .has-img .placeHeader{
         background:transparent center center fixed no-repeat;
         -webkit-background-size:cover;
