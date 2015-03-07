@@ -375,7 +375,7 @@ header{
     border-radius:2px;
     box-shadow:0 2px 66px rgba(0,0,0,.7);
     height:90%;
-    left:6%;
+    left:5%;
     overflow:hidden;
     top:5%;
     width:90%;
@@ -413,9 +413,15 @@ header{
     right:-5px;
     text-shadow:none;
     top:0;
-    -webkit-transform:translate3d(0,0,0);
     width:40px;
-    z-index:6
+    z-index:7
+}
+.ua-webkit.os-iphone .modal > .close,
+.ua-webkit.os-iphone .modal .has-img .placeHeader img{
+    -webkit-transform:translateZ(0)
+}
+.ua-webkit.os-iphone .modal .has-img .placeHeader{
+    background-image:none!important
 }
 .modal > .close:active,
 .modal > .close:focus{
@@ -423,8 +429,7 @@ header{
 }
 .modal > .close:before{
     color:#808080;
-    font-size:2rem;
-    -webkit-transform:translate3d(0,0,0)
+    font-size:2rem
 }
 .modal > article{
     height:100%;
@@ -466,7 +471,6 @@ header{
     height:100%;
     left:0;
     position:absolute;
-    -webkit-transform:translate3d(0,0,0);
     width:100%;
     z-index:2
 }
@@ -480,7 +484,6 @@ header{
     position:absolute;
     text-align:left;
     text-shadow:0 1px 4px #000;
-    -webkit-transform:translate3d(1,1,1);
     z-index:3
 }
 .ua-webkit .modal .has-img .placeHeader h1{
@@ -735,6 +738,10 @@ footer{
         z-index:a
     }
 
+    .modal .has-img .placeHeader{
+        background-image:none!important
+    }
+
     /* Animation */
     footer,
     header{
@@ -868,6 +875,12 @@ footer{
         border-bottom:1px #e2e2e2 solid
     }
 
+    /*
+    .modal{
+        left:20%;
+        width:60%
+    }
+    */
     .modal .has-img .placeHeader{
         background:transparent center center fixed no-repeat;
         -webkit-background-size:cover;
