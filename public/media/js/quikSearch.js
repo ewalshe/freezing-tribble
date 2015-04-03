@@ -8,19 +8,24 @@ var quikSearch = function (form, config) {
         el;
 
 
-    // Reasons to quit
     if (form && form.tagName === 'FORM') {
         el = form.querySelector('input[type="search"]');
     }
+
+    // Reasons to quit
     if (!el || !data || !Array.isArray(data)) {
         console.log('No element to attach to or no data to search.');
         return;
     }
 
-
-    // Add defaults
+    // Add defaults (TODO: Reconsider template)
     config.suggestionTemplate = config.suggestionTemplate || '<li class="{{itemClass}}" data-menu-item="{{itemIndex}}" data-index="{{index}}">{{title}}</li>';
     config.maxSuggestions = config.maxSuggestions || 10;
+
+    // Suppress browser defaults
+    el.setAttribute('autocapitalize', 'off');
+    el.setAttribute('autocomplete', 'off');
+
 
     // Util: Soundex a string
     var soundex = function (s) {
@@ -58,11 +63,29 @@ var quikSearch = function (form, config) {
         var tempEl = document.createElement('i'),
             txt;
 
-        tempEl.innerHTML = html;
+        tempEl.innerHTML = html.split('>').join('> ');
         txt = (tempEl.textContent || tempEl.innerText || '');
         tempEl = null;
 
         return txt;
+    };
+
+
+    // Util: boil a string down into keywords
+    var keyWords = function (txt) {
+        if (!txt) {
+            return '';
+        }
+
+        return txt
+            .split(/\s+/)
+            .filter(function(v) {
+                return v.length > 2;
+            })
+            .filter(function(v, i, a) {
+                return a.lastIndexOf(v) === i;
+            })
+            .join(' ');
     };
 
 
@@ -101,11 +124,6 @@ var quikSearch = function (form, config) {
     };
 
 
-    // Suppress browser defaults
-    el.setAttribute('autocapitalize', 'off');
-    el.setAttribute('autocomplete', 'off');
-
-
     // Build search index
     data.forEach(function (obj, index) {
         var searchObj = {
@@ -123,8 +141,11 @@ var quikSearch = function (form, config) {
             }
         });
 
-        searchObj.str = str.trim();                 // Keep original string
-        searchObj.words = searchObj.str.split(' '); // TODO: kill stop words
+        str = str.replace(/\W/g, ' ');          // Alphanumeric chars only
+        str = keyWords(str).trim();             // Unique keywords only
+
+        searchObj.str = str;                    // Keep original string
+        searchObj.words = str.split(' ');       // TODO: kill stop words
 
         // Build simple fuzzy strings
         searchObj.words.forEach(function (word) {
